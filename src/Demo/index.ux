@@ -13,7 +13,7 @@ import router from '@system.router'
 export default {
   // 页面级组件的数据模型，影响传入数据的覆盖机制：private内定义的属性不允许被覆盖
   private: {
-    title: '示例页面demo'
+    title: '示例页面demo111'
   },
   /**
    * 当用户点击菜单按钮时触发，调用app中定义的方法showMenu
