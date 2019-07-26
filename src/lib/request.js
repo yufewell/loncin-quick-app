@@ -12,7 +12,7 @@ function request(method = 'GET') {
         data,
         header: { authorization: 'user._id', from: '' },
         success: function (data) {
-          // console.log(`接口：${baseUrl + url}: data: ${data.data}`)
+          // console.log(`接口：${baseUrl + url}: data: ${data}`)
           if (data.code !== 200) {
             console.error(data)
             prompt.showToast({ message: typeof data.data === 'string' ? data.data : JSON.stringify(data.data) })
@@ -21,7 +21,7 @@ function request(method = 'GET') {
           }
           const contentType = data.headers['content-type'] || data.headers['Content-Type']
           if (contentType.includes('application/json')) data.data = JSON.parse(data.data)
-          resolve(data)
+          resolve(data.data)
         },
         fail: function (data, code) {
           prompt.showToast({ message: typeof data === 'string' ? data : JSON.stringify(data) })

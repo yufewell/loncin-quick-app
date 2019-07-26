@@ -1,0 +1,80 @@
+<template>
+  <div class="nm-container">
+    <div class="nm-header">
+      <div class="nm-line"></div>
+      <image class="nm-img" src="/Common/icon-no-more.png"></image>
+      <div class="nm-line"></div>
+    </div>
+    <div style="justify-content: center;">
+      <text class="nm-more">没有更多了</text>
+    </div>
+    <div style="justify-content: center;">
+      <text class="nm-go">去发现页，关注更多的人吧～</text>
+    </div>
+  </div>
+</template>
+
+<style lang="less">
+  .nm-container {
+    flex-direction: column;
+    justify-content: center;
+    padding: 30px;
+    justify-content: center;
+    background-color: #FBFAFA;
+    border-bottom-width: 2px; 
+    border-bottom-color: #DBDBDB;
+    width: 100%;
+  }
+  .nm-header {
+    align-items: center;
+  }
+  .nm-line {
+    width: 100%;
+    height: 2px;
+    background-color: #D8D8D8;
+    flex: 1;
+  }
+  .nm-img {
+    width: 88px;
+    height: 92px;
+    margin: 0 30px;
+  }
+  .nm-more {
+    padding-top: 40px;
+    font-size: 36px;
+    color: #333333;
+    text-align: center;
+  }
+  .nm-go {
+    padding-top: 12px;
+    font-size: 26px;
+    color: #999999;
+    text-align: center;
+  }
+</style>
+
+<script>
+import prompt from '@system.prompt'
+import router from '@system.router'
+export default {
+  props: {
+    title: {
+      type: String,
+      default: ''
+    }
+  },
+  data() {
+    return {
+      aa: this.title,
+    }
+  },
+  onInit() {
+  },
+  
+  goPage () {
+    router.push ({
+      uri: '/Detail'
+    })
+  },
+}
+</script>

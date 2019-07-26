@@ -1,0 +1,117 @@
+<template>
+  <div class="addr-page">
+    <text class="title" style="margin-top: 226px;">选择居住小区</text>
+    <select @change="selectPlot" class="select select-plots">
+      <option class="option option-plots" for={{plots}} value='{{$item.name}}' selected="true">{{$item.name}}</option>
+    </select>
+    <text class="title">选择住址</text>
+    <select @change="selectAddr" class="select select-addr">
+      <option class="option option-addr" for={{addrs}} value='{{$item.name}}' selected="true">{{$item.name}}</option>
+    </select>
+    <input class="btn" type="button" value="确定" onclick="onConfirm" />
+  </div>
+</template>
+
+<script>
+import router from '@system.router'
+import prompt from '@system.prompt'
+import User from '../lib/user'
+const user = new User()
+
+export default {
+  private: {
+    plots: [
+      { name: '小区1' },
+      { name: '小区2' },
+      { name: '小区3' },
+    ],
+    addrs: [
+      { name: '住址1' },
+      { name: '住址2' },
+      { name: '住址3' },
+    ],
+    userInfo: {},
+    selectPlotName: '',
+    selectAddrName: '',
+  },
+  async onInit() {
+    const userInfo = await user.getLocal()
+    if (userInfo) {
+      this.userInfo = userInfo
+    }
+  },
+  onMenuPress() {
+    this.$app.$def.showMenu()
+  },
+  onConfirm () {
+    if (this.selectAddrName && this.selectPlotName) {
+      router.push ({
+        uri: '/Index',
+        params: {
+          selectAddrName: this.selectAddrName
+        }
+      })
+    } else {
+      prompt.showToast({
+        message: '请选择小区/住址'
+      })
+    }
+    
+  },
+  selectPlot (value) {
+    if (value && value.newValue) {
+      this.selectPlotName = value.newValue
+    }
+    // console.log('newValue:newValue', value)
+  },
+  selectAddr (value) {
+    if (value && value.newValue) {
+      this.selectAddrName = value.newValue
+    }
+  }
+}
+</script>
+
+<style>
+  .addr-page {
+    flex-direction: column;
+    align-items: center;
+  }
+  .select {
+    width: 80%;
+    height:68px;
+    background-color:rgba(255,255,255,1);
+    border-radius:34px;
+    border:2px solid rgba(142,41,39,1);
+    margin-bottom: 15px;
+  }
+  .option {
+  }
+  .option-plots {
+    border:2px solid rgba(142,41,39,1);
+    /* border-bottom-width: 1px;
+    border-bottom-color: #7fffd4; */
+  }
+  .title {
+    width: 80%;
+    margin-bottom: 10px;
+    height:29px;
+    font-size:20px;
+    font-weight:400;
+    color:rgba(142,41,39,1);
+    line-height:29px;
+    text-align: left;
+  }
+
+  .btn {
+    width: 80%;
+    margin-top: 210px;
+    height:68px;
+    background-color:rgba(142,41,39,1);
+    border-radius:34px;
+    font-size: 24px;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:34px;
+  }
+</style>

@@ -66,11 +66,12 @@ export default {
         message: '请输入验证码！'
       })
     }
-    await user.login(this.name, this.phone, this.code).then(res => {
+    await user.login(this.name, this.phone, this.code).then(async (res) => {
       if (res.code === 0) {
         prompt.showToast({ message: '登录成功！'})
+        // 如果业主只有一套房子，直接进入首页，若业主有多套房子，进入选择页面
         return router.push({
-          uri: '/Index',
+          uri: '/SelectAddr',
           params: {}
         })
       }

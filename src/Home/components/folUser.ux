@@ -1,0 +1,100 @@
+<template>
+  <div>
+    <div class="fu-foluser" show="{{isShow}}">
+      <tabs>
+        <tab-bar class="fu-tab-bar" mode="scrollable">
+          <block for="item in folUsers">
+            <div class="fu-block">
+              <div class="fu-container">
+                <image class="fu-img" src="{{item.userUrl}}"></image>
+              </div>
+              <text class="fu-txt">{{item.userName}}</text>
+            </div>
+          </block>
+        </tab-bar>
+      </tabs>
+    </div>
+  </div>
+</template>
+
+<style lang="less">
+  .fu-foluser {
+    height: 200px;
+    padding: 0 10px;
+    background-color: #FBFAFA;
+    border-bottom-width: 2px; 
+    border-bottom-color: #DBDBDB;
+  }
+  .fu-tab-bar {
+    flex: 1;
+  }
+  .fu-block {
+    padding: 18px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .fu-container {
+    flex: 1;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #fe2446;
+    padding: 5px;
+    border-radius: 57px;
+  }
+  .fu-img {
+    width: 104px;
+    height: 104px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgba(0,0,0,0.10);
+    border-radius: 52px;
+  }
+  .fu-txt {
+    font-size: 22px;
+    color: #333333;
+    padding-top: 8px;
+    line-height: 22px;
+  }
+</style>
+
+<script>
+import prompt from '@system.prompt'
+import router from '@system.router'
+import request from '../../lib/request'
+import storage from '../../lib/storage'
+import User from '../../lib/user'
+import utility from '../../lib/utility'
+const user = new User()
+export default {
+  props: {
+    title: {
+      type: String,
+      default: ''
+    }
+  },
+  data() {
+    return {
+      aa: this.title,
+      folUsers: [],
+      userInfo: {},
+      isShow: false
+    }
+  },
+  async onInit() {
+    const userInfo = await storage.getJSON('user')
+    this.userInfo = userInfo
+    const { userId, token } = userInfo
+    const list = await request.post('releas/folUser', { userId, token }).then(res => res.body.list)
+    this.folUsers = list
+    this.isShow = !!utility.isArray(list)
+    console.log('folUsers', this.isShow, list)
+  },
+  
+  goPage () {
+    router.push ({
+      uri: '/Detail'
+    })
+  },
+}
+</script>

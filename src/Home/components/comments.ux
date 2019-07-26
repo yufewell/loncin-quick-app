@@ -1,0 +1,108 @@
+<template>
+  <div class="c-container">
+    <div class="c-comlist" show="{{isShowComments}}">
+      <block for="(index, item) in commentList">
+        <div class="c-comCss">
+          <div style="flex: 1;">
+            <text class="c-name">{{item.userName}}:  </text>
+            <text class="c-content">{{item.content}}</text>
+          </div>
+          <div style="width: 15%; justify-content: flex-end;">
+            <image class="c-praise" src="/Common/{{!!item.isLike ? 'icon-comment-red.png' : 'icon-comment-gray.png' }}"></image>
+          </div>
+        </div>
+      </block>
+    </div>
+    <div class="c-comment">
+      <image class="c-header" src="/Common/icon-default-portrait.png"></image>
+      <text if="{{isShowAdd}}" class="c-add" @click="clickAdd">添加评论...</text>
+    </div>
+  </div>
+</template>
+
+<style lang="less">
+  .c-container {
+    flex-direction: column;
+    background-color: #ffffff;
+    padding: 0 30px;
+    width: 100%;
+  }
+  .c-comlist {
+    flex-direction: column;
+    width: 100%;
+  }
+  .c-comCss {
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    width: 100%;
+  }
+  .c-name {
+    font-size: 24px;
+    color: #333333;
+  }
+  .c-content {
+    padding-left: 10px;
+    font-size: 24px;
+    color: #666666;
+    text-align: left;
+    flex: 1;
+  }
+  .c-praise {
+    width: 30px;
+    height: 28px;
+  }
+  .c-comment {
+    padding: 10px 0 20px;
+    align-items: center;
+  }
+  .c-add {
+    font-size: 24px;
+    color: #666666;
+  }
+  .c-header {
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    margin-right: 14px;
+  }
+</style>
+
+<script>
+  import prompt from '@system.prompt'
+  import router from '@system.router'
+  import request from '../../lib/request'
+  import storage from '../../lib/storage'
+
+  export default {
+    props: {
+      comments: {
+        type: Array,
+        default: []
+      },
+    },
+
+    data() {
+      return {
+        isCollect: this.heart,
+        commentList: this.comments,    // 评论数据
+        isShowComments: false,         // 是否显示评论列表 
+        isShowAdd: true,               // 是否显示添加评论
+      }
+    },
+
+    onInit() {
+      if (this.commentList && Array.isArray(this.commentList) && this.commentList.length > 0) {
+        this.isShowComments = true
+        console.log(this.commentList.length)
+      }
+    },
+
+    clickAdd() {
+      if (this.isShowAdd) {
+        this.isShowAdd = false
+        this.$emit('onClickAdd')
+      }
+    }
+  }
+</script>

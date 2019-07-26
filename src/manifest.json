@@ -60,15 +60,30 @@
     "data": {}
   },
   "router": {
-    "entry": "Demo",
+    "entry": "Index",
     "pages": {
-      "Demo": {
+      "Index": {
+        "component": "index"
+      },
+      "WorkOrder": {
+        "component": "index"
+      },
+      "Profile": {
+        "component": "index"
+      },
+      "Home": {
         "component": "index"
       },
       "About": {
         "component": "index"
       },
       "Login": {
+        "component": "index"
+      },
+      "SelectAddr": {
+        "component": "index"
+      },
+      "Demo": {
         "component": "index"
       }
     },
@@ -105,6 +120,29 @@
       "Login": {
         "menu": false,
         "titleBarText": "",
+        "titleBar": true
+      },
+      "SelectAddr": {
+        "menu": false,
+        "titleBarText": "",
+        "titleBar": true
+      },
+      "Index": {
+        "menu": false,
+        "titleBarText": "",
+        "titleBar": false
+      },
+      "WorkOrder": {
+        "menu": false,
+        "titleBarText": "",
+        "titleBar": true
+      },
+      "Profile": {
+        "menu": false,
+        "titleBar": true
+      },
+      "Home": {
+        "menu": false,
         "titleBar": true
       }
     }

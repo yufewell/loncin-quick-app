@@ -1,0 +1,74 @@
+<template>
+  <div class="pc-container">
+    <div class="pc-left">
+      <text class="pc-txt">{{praises}}次赞<span class="pc-dot">  ·  </span></text><text class="pc-txt">{{comments}}条评论</text>
+    </div>
+    <div class="pc-right">
+      <image class="pc-addr" show="{{!!addr}}" src="/Common/icon-addr.png"></image>
+      <text class="pc-txt" style="padding-left: 6px;">{{addr}}</text>
+    </div>
+  </div>
+</template>
+
+<style lang="less">
+  .pc-container {
+    justify-content: space-between;
+    align-content: center;
+    background-color: #ffffff;
+    padding: 0 30px;
+    width: 100%;
+  }
+  .pc-left {
+    flex: 1;
+  }
+  .pc-right {
+    flex: 1;
+    align-items: center;
+  }
+  .pc-dot {
+    color: #999999;
+    padding: 0 5px;
+  }
+  .pc-txt {
+    font-size: 24px;
+    color: #999999;
+  }
+  .pc-addr {
+    width: 19px;
+    height: 24px;
+  }
+</style>
+
+<script>
+import prompt from '@system.prompt'
+import router from '@system.router'
+import request from '../../lib/request'
+import storage from '../../lib/storage'
+export default {
+  props: {
+    praises: {
+      type: Number,
+      default: 0
+    },
+    comments: {
+      type: Number,
+      default: 0
+    },
+    addr: {
+      type: String,
+      default: ''
+    },
+    
+  },
+  data() {
+    return {
+      isCollect: this.heart
+    }
+  },
+  onInit() {
+  },
+  clicktAddr() {
+    this.$emit('onClickAddr')
+  }
+}
+</script>

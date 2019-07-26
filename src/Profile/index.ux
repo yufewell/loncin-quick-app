@@ -1,0 +1,45 @@
+<template>
+  <div class="ls-page">
+    <text class="title">{{aa}}</text>
+    <input class="btn" type="button" value="跳转到详情页" onclick="routeDetail" />
+  </div>
+</template>
+
+<style lang="less">
+  @import './index.less';
+</style>
+
+<script>
+import prompt from '@system.prompt'
+import router from '@system.router'
+import shortcut from '@system.shortcut'
+import fetch from '@system.fetch'
+import request from '../lib/request'
+import storage from '../lib/storage'
+export default {
+  props: {
+    title: {
+      type: String,
+      default: '',
+      required: false
+    }
+  },
+  data() {
+    return {
+      aa: this.title,
+      authId: ''
+    }
+  },
+  onInit() {
+    console.log('authId', this.authId)
+  },
+  routeDetail () {
+    router.push ({
+      uri: '/Index'
+    })
+  },
+  onChange(e) {
+    console.log(`/${e.detail.value}`)
+  }
+}
+</script>

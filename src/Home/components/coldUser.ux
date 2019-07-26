@@ -1,0 +1,149 @@
+<import name="cu-button" src="../../components/hk-button/index"></import>
+
+<template>
+  <div class="cu-container">
+    <div class="cu-top">
+      <text class="cu-tjuh">推荐用户</text>
+      <text class="cu-all" >查看更多</text>
+    </div>
+    <div class="cu-recommend" show="{{isShowList}}">
+      <block for="(index, item) in list">
+        <div class="cu-coldCss">
+          <div>
+            <image class="cu-header" src="{{item.userUrl ? item.userUrl : '/Common/icon-default-portrait.png' }}"></image>
+          </div>
+          <text class="cu-name">{{item.userName}}</text>
+          <text class="cu-info" >{{item.authEct}}</text>
+          <div>
+            <hk-button @on-click="clickFllow(index)" value="关注" bg-color="#FE2346" f-color="#ffffff" f-size="{{22}}" width="{{166}}" height="{{54}}" border-radius="{{8}}"></hk-button>
+          </div>
+        </div>
+      </block>
+    </div>
+  </div>
+</template>
+
+<style lang="less">
+  .cu-container {
+    flex-direction: column;
+    background-color: #FBFAFA;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-top-color: #DBDBDB;
+    border-bottom-color: #DBDBDB;
+    padding: 15px 20px;
+    width: 100%;
+  }
+  .cu-top {
+    padding: 15px 10px;
+    justify-content: space-between;
+  }
+  .cu-tjuh {
+    font-size: 26px;
+    color: #000000;
+  }
+  .cu-all {
+    font-size: 26px;
+    color: #FE2446;
+  }
+  .cu-recommend {
+    padding: 15px 0px;
+    justify-content: space-between;
+  }
+  .cu-coldCss {
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 10px;
+    padding: 20px 20px 25px;
+    background-color: #FFFFFF;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(0,0,0,0.10);
+    border-radius: 8px;
+  }
+  .cu-header {
+    width: 108px;
+    height: 108px;
+    border-radius: 54px;
+  }
+  .cu-name {
+    font-size: 28px;
+    color: #333333;
+    padding: 10px 0;
+    text-align: center;
+  }
+  .cu-info {
+    font-size: 22px;
+    color: #999999;
+    padding-bottom: 20px;
+    lines: 3;
+    text-align: center
+  }
+</style>
+
+<script>
+  import prompt from '@system.prompt'
+  import router from '@system.router'
+  import request from '../../lib/request'
+  import storage from '../../lib/storage'
+  import utility from '../../lib/utility'
+
+  export default {
+    props: {
+      users: {
+        type: Object,
+        default: {}
+      },
+      index: {
+        type: Number,
+        default: 1
+      },
+    },
+
+    data() {
+      return {
+        pageIndex: this.index,         // 冷启动分页码
+        pageSize: 3,                   // 冷启动分页数
+        list: [],                      // 推荐用户
+        isShowList: false,             // 是否显示推荐列表
+      }
+    },
+    
+    async onInit() {
+      const { userId } = this.users
+      const params = userId ? { userId, pageSize: 3 } : { pageIndex: this.index, pageSize: 3 }
+      const url = userId ? 'recomm/person' : 'colduser'
+      await this.getUserList(params, url, userId)
+    },
+    
+    // 获取推荐数据：相关人推荐接口(recomm/person)、冷启动数据(colduser)
+    async getUserList(params, url, userId) {
+      const list = await request.post(url, { ...params }).then(res => res.body.list) || []
+      let newList = []
+      const keyName = userId ? 'recommSource' : 'authEct'
+      if (utility.isArray(list)) {
+        newList = list.map(item => ({
+          ...item,
+          authEct: item[keyName] && item[keyName] !== '' ? item[keyName] : '猜你喜欢'
+        }))
+        // console.log('newList', JSON.stringify(newList))
+      }
+      this.list = newList.slice(0, 3)
+      this.isShowList = utility.isArray(newList)
+    },
+
+    clickDel(index) {
+      prompt.showToast({
+        message: `已删除, ${index}`
+      })
+    },
+
+    clickFllow(index) {
+      prompt.showToast({
+        message: `已关注, ${index}`
+      })
+    }
+  }
+</script>

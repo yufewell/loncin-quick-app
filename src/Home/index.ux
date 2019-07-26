@@ -1,0 +1,50 @@
+<!-- <import name="lc-home-list" src="./components/imgList"></import> -->
+
+<template>
+  <div class="lc-page" style="">
+    <!-- <lc-home-list></lc-home-list> -->
+    <text class="title">{{title}}</text>
+  </div>
+</template>
+
+<style lang="less">
+  @import './index.less';
+</style>
+
+<script>
+import prompt from '@system.prompt'
+import router from '@system.router'
+
+export default {
+  props: {
+    title: {
+      type: String,
+      default: ''
+    },
+    users: {
+      type: Object,
+      default: {}
+    }
+  },
+  data() {
+    return {
+      aa: this.title,
+      userInfo: this.users,
+    }
+  },
+  onInit() {
+    // console.log('home', this.userInfo)
+    // const { userId, token } = this.userInfo
+    // const list = await request.post('releas/folUser', { userId, token }).then(res => res.body.list)
+    // this.list = list
+  },
+  routeDetail () {
+    router.push ({
+      uri: '/Detail'
+    })
+  },
+  onChange(e) {
+    console.log(`/${e.detail.value}`)
+  }
+}
+</script>

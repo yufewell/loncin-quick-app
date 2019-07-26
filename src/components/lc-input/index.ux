@@ -11,7 +11,7 @@
 
 <style lang="less">
   .quist-input {
-    padding: 5 30px;
+    padding: 5px 30px;
     height: 68px;
     border-radius: 34px;
     border: 2px solid rgba(159,156,156,1);
@@ -19,13 +19,14 @@
     justify-content: space-between;
   }
   .bColor {
-    border-color: #8E2927 !important;
+    border-color: #8E2927;
   }
   .quist-input-box {
     font-size: 22px;
     font-family:PingFangSC-Regular;
     font-weight:400;
-    color:rgba(153,153,153,1);
+    placeholder-color:rgba(153,153,153,1);
+    color: #000;
     line-height:31px;
     flex: 1;
   }

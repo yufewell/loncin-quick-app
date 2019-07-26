@@ -1,0 +1,158 @@
+<import name="hk-foluser" src="./folUser"></import>
+<import name="hk-nomore" src="./noMore"></import>
+<import name="hk-swiper" src="./ImgSwiper"></import>
+<import name="hk-header" src="./header"></import>
+<import name="hk-heart" src="./heart"></import>
+<import name="hk-content" src="./content"></import>
+<import name="hk-praise-comment" src="./praiseComment"></import>
+<import name="hk-comments" src="./comments"></import>
+<import name="hk-colduser" src="./coldUser"></import>
+
+<template>
+  <refresh class="refresh" offset="100px" refreshing="{{freshing}}" @refresh="onRefresh" style="progress-color: #FE2346; z-index: 100;">
+    <!-- 最新发布图片关注用户列表(*：list不支持tabs和swiper组件嵌套) -->
+    <hk-foluser></hk-foluser>
+    
+    <!-- list-item里要谨慎使用if和for 因为结构改变有可能会导致报错 -->
+    <list style="height: 100%;" onscrollbottom="renderMoreList" scrollpage="true">
+      <!-- 刷新组件样式 -->
+      <list-item type="refresh" class="refresh" if="{{freshing}}" style="height: 0px; align-items: flex-start;">
+        <text style="color: #000000; text-align: center; width: 100%;">正在刷新...</text>
+      </list-item>
+
+      <!-- 图说列表模块 -->
+      <block for="(index, item) in imgList">
+        <!-- 顶部头像&&关注 -->
+        <list-item type="header" class="header">
+          <hk-header authid="{{item.authorId}}" url="{{item.authorUrl}}" date="{{item.shootTime}}" name="{{item.authorName}}" fllow="{{item.isFllow}}"></hk-header>
+        </list-item>
+        <!-- 组图轮播 -->
+        <list-item type="img">
+          <image style="width: 100%; resize-mode: contain;" src="{{item.url}}"></image>
+        </list-item>
+        <list-item type="swiper">
+          <hk-swiper list="{{item.childs}}"></hk-swiper>
+        </list-item>
+        <!-- 点赞&&投诉 -->
+        <list-item type="heart">
+          <hk-heart heart="{{item.isCollect}}"></hk-heart>
+        </list-item>
+        <!-- 图说&&查看翻译 -->
+        <list-item type="content">
+          <hk-content content="{{item.content}}"></hk-content>
+        </list-item>
+        <!-- 点赞数和地址 -->
+        <list-item type="praise-comments">
+          <hk-praise-comment praises="{{item.collectNum}}" comments="{{item.commentNum}}" addr="{{item.shootAddr}}"></hk-praise-comment>
+        </list-item>
+        <!-- 评论列表&&发送评论 -->
+        <list-item type="comments">
+          <hk-comments comments="{{item.comments}}"></hk-comments>
+        </list-item>
+        
+        <!-- 相关人推荐 / 冷启动用户 -->
+        <list-item type="colduser" if="{{!![0, 1].includes(index)}}">
+          <hk-colduser users="{{userInfo}}" index="{{index + 1}}"></hk-colduser>
+        </list-item>
+      </block>
+    
+      <!-- 加载更多 -->
+      <list-item type="loadStatus" class="load-status" if="{{loading}}">
+        <progress type="circular" show="{{loading}}"></progress>
+        <!-- <text show="{{loading}}">正在加载···</text> -->
+      </list-item>
+    
+      <!-- 没有更多了 -->
+      <list-item type="nomore" show="{{hasMoreData}}">
+        <hk-nomore></hk-nomore>
+      </list-item>
+    </list>
+  </refresh>
+</template>
+
+<style lang="less">
+  .refresh {
+    flex-direction: column;
+    flex: 1; /* 必须设置设个 */
+  }
+  .load-status {
+    justify-content: center;
+    align-self: flex-end;
+    padding-top: 20px;
+  }
+</style>
+
+<script>
+import prompt from '@system.prompt'
+import router from '@system.router'
+import request from '../../lib/request'
+import storage from '../../lib/storage'
+import coverAddChilds from '../../lib/coverAddChilds'
+import User from '../../lib/user'
+const user = new User()
+export default {
+  props: {
+    title: {
+      type: String,
+      default: ''
+    }
+  },
+  data() {
+    return {
+      aa: this.title,
+      imgList: [],                  // 图说列表
+      userInfo: {},                 // 用户登陆信息
+      freshing: false,              // 是否刷新
+      hasMoreData: false,           // 没有更多数据状态
+      loading: false,               // 上拉加载状态
+      pageSize: 10,                 // 页数
+      pageIndex: 1,                 // 页码
+    }
+  },
+  async onInit() {
+    const userInfo = await storage.getJSON('user')
+    this.userInfo = userInfo
+    const { token, userId } = userInfo
+    const list = await this.getMoreList()
+    this.imgList = list
+    // console.log('listInit', JSON.stringify(list))
+  },
+  
+  // 获取首页关注的人的列表数据（**：封面图要和组图childs合并是组图列表）
+  async getMoreList() {
+    const { userId, token } = this.userInfo
+    const params = { userId, token, pageIndex: this.pageIndex, pageSize: this.pageSize, width: "720", height: "1000" }
+    const list = await request.post('followlist', { ...params }).then(res => res.body.list) || []
+    const resultList = coverAddChilds(list || [])
+    return resultList
+  },
+  // 下拉刷新（**：接口暂未支持）
+  async onRefresh(evt) {
+    const self = this
+    self.freshing = evt.refreshing
+    // this.pageIndex = 1
+    setTimeout(() => {
+      self.freshing = false
+    }, 1500)
+  },
+  // 滑动到底部时加载更多
+  async renderMoreList() {
+    const self = this
+    self.loading = true
+    self.pageIndex++
+    const list = await self.getMoreList()
+    const count = list.length
+    self.hasMoreData = self.imgList + list.length < count
+    self.imgList = self.imgList.concat(list)
+    setTimeout(() => {
+      self.loading = false
+    }, 500)
+    // console.log('morelist', JSON.stringify(self.imgList))
+  },
+  goPage () {
+    router.push ({
+      uri: '/Detail'
+    })
+  },
+}
+</script>
