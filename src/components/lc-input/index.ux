@@ -1,0 +1,136 @@
+<template>
+  <stack>
+    <div class="quist-input" style="width: {{width}}; border-width: {{border}};">
+      <input id="quist-input-box" class="quist-input-box" style="font-size: {{size}};" name="{{name}}" maxlength="{{maxlen}" type="{{type}}" value="{{searchValue}}" placeholder="{{placeholder}}" disabled="{{disabled}}" @focus="onfocus" @blur="onblur" @change="onchange" />
+      <div class="quist-input-suffix {{ showClear ? 'show-close' : 'hide-close'}}" @click="clearClick">
+        <image src="{{suffixIcon}}" class="quist-input-img" />
+      </div>
+    </div>
+  </stack>
+</template>
+
+<style lang="less">
+  .quist-input {
+    padding: 5 30px;
+    height: 68px;
+    border-radius: 34px;
+    border: 2px solid rgba(159,156,156,1);
+    align-items: center;
+    justify-content: space-between;
+  }
+  .bColor {
+    border-color: #8E2927 !important;
+  }
+  .quist-input-box {
+    font-size: 22px;
+    font-family:PingFangSC-Regular;
+    font-weight:400;
+    color:rgba(153,153,153,1);
+    line-height:31px;
+    flex: 1;
+  }
+  .show-close {
+    opacity: 1;
+  }
+  .hide-close {
+    opacity: 0;
+  }
+  .quist-input-img {
+    width: 30px;
+    height: 30px;
+  }
+</style>
+
+<script>
+export default {
+  props: {
+    placeholder: {
+      type: String,
+      default: ''
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    width: {
+      type: String,
+      default: '100%'
+    },
+    suffix: {
+      type: String,
+      default: ''
+    },
+    size: {
+      type: String,
+      default: '56px'
+    },
+    border: {
+      type: String,
+      default: '2px'
+    },
+    type: {
+      type: String,
+      default: 'text'
+    },
+    maxlen: {
+      type: Number,
+      default: 500
+    },
+    name: {
+      type: String,
+      default: 'input'
+    },
+    value: {
+      type: String,
+      default: ''
+    }
+  },
+  data() {
+    return {
+      searchValue: this.value,
+      showClear: false,
+      replaceShow: true
+    }
+  },
+  onInit() {
+    this.initialize()
+  },
+  initialize() {
+    this.suffixIcon = this.suffix
+  },
+  onchange(e) {
+    this.searchValue = e.value
+    if (this.searchValue) {
+      this.showClear = true
+    } else {
+      this.showClear = false
+    }
+    this.$emit('onChange', { value: this.searchValue })
+  },
+  onfocus() {
+    this.$emit('onFocus', { value: this.searchValue })
+  },
+  onblur() {
+    this.$emit('onBlur', { value: this.searchValue })
+  },
+  clearClick() {
+    this.searchValue = ''
+    this.showClear = false
+    this.$emit('onClear')
+  },
+  searchClick() {
+    this.blur()
+    this.$emit('onClick', { value: this.searchValue })
+  },
+  focus() {
+    this.$element('quist-input-box').focus({
+      focus: true
+    })
+  },
+  blur() {
+    this.$element('quist-input-box').focus({
+      focus: false
+    })
+  }
+}
+</script>

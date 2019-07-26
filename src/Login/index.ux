@@ -1,0 +1,112 @@
+
+<import name="lc-input" src="../components/lc-input/index"></import>
+
+<template>
+  <div class="login-page">
+    <div class="top">
+      <image src="/Common/logo@2x.png" class="logo" />
+    </div>
+    <div style="width: 80%; border: 2px solid rgba(142,41,39,1); border-radius: 34px;">
+      <lc-input id="name" name="name" border="0px" size="22px" maxlen="{{20}}" suffix="/Common/icon-edit-close.png"  placeholder='请输入姓名' @on-focus="focus" @on-blur="blur" @on-clear="clear" @on-change="nameChange">
+    </div>
+    <div style="width: 80%; padding-top: 34px;">
+      <lc-input id="phone" name="phone" size="22px" type="number" maxlen="{{20}}" suffix="/Common/icon-edit-close.png"  placeholder='请输入手机号' @on-focus="focus" @on-blur="blur" @on-clear="clear" @on-change="phoneChange">
+    </div>
+    <div class="code" style="width: 80%; padding-top: 34px;">
+      <div style="flex: 1;">
+        <lc-input id="code" name="code" border="2px" type="number" maxlen="{{4}}" size="22px"  placeholder='输入短信验证码' @on-focus="focus" @on-blur="blur" @on-change="codeChange"></hk-input>
+      </div>
+      <div class="restart">
+        <text if="{{!countdownTime}}" @click="restartSend">{{tips}}</text>
+        <text else>{{countdownTime}}s</text>
+      </div>
+    </div>
+    <input class="submit" type="button" value="注册并登录" onclick="submit" />
+  </div>
+</template>
+
+<style lang="less">
+  @import './index.less';
+</style>
+
+<script>
+import prompt from '@system.prompt'
+import router from '@system.router'
+import request from '../lib/request'
+import User from '../lib/user'
+
+const user = new User()
+export default {
+  timer: null,
+  protected: {
+    title: '手机号注册',
+    phone: '',
+    code: '',
+    name: '',
+    isBackPassword: false,
+    countdownTime: 0,
+    tips: '获取验证码',
+  },
+  onInit() {
+    setTimeout(() => {
+      this.$child('code').focus()
+    }, 1000)
+  },
+  onDestroy() {
+    if (this.timer) clearInterval(this.timer)
+  },
+  async submit() {
+    if (!this.name) {
+      return prompt.showToast({
+        message: '请输入姓名！'
+      })
+    }
+    if (!/^\d{6}$/.test(this.code)) {
+      return prompt.showToast({
+        message: '请输入验证码！'
+      })
+    }
+    await user.login(this.name, this.phone, this.code).then(res => {
+      if (res.code === 0) {
+        prompt.showToast({ message: '登录成功！'})
+        return router.push({
+          uri: '/Index',
+          params: {}
+        })
+      }
+    }) 
+  },
+  restartSend() {
+    if (!/^\d{11}$/.test(this.phone)) {
+      return prompt.showToast({ message: '请输入正确的手机号'})
+    }
+    this.countdownTime = 90
+    this.tips = '重新获取'
+    this.timer && clearInterval(this.timer)
+    this.timer = setInterval(() => {
+      this.countdownTime--
+      if (this.countdownTime <= 0 && this.timer) {
+        clearInterval(this.timer)
+        this.countdownTime = 0
+      }
+    }, 1000)
+    // 发起短信请求获取验证码
+    if (this.phone) {
+      request.post('captcha', { phone: this.phone }).then((res) => {
+        console.log('获取验证码', res)
+      })
+    }
+  },
+  codeChange(e) {
+    this.code = e.detail.value
+  },
+  nameChange(e) {
+    this.name = e.detail.value
+  },
+  phoneChange(e) {
+    this.phone = e.detail.value
+  },
+  clear() {
+  },
+}
+</script>
