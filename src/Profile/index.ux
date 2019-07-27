@@ -44,7 +44,7 @@ export default {
       addr: this.users.address || '暂无',
       name: this.users.name || '暂无',
       tabs: [
-        { url: '/Common/profile/icon-profile-jilu@2x.png', title: '缴纳记录', routeName: '' },
+        { url: '/Common/profile/icon-profile-jilu@2x.png', title: '缴纳记录', routeName: '/PaymentRecords' },
         { url: '/Common/profile/icon-profile-gongdan@2x.png', title: '报修记录', routeName: '' },
         { url: '/Common/profile/icon-profile-youhuiquan@2x.png', title: '优惠券', routeName: '/Mall/MyCoupns' },
         { url: '/Common/profile/icon-profile-tousujianyi@2x.png', title: '投诉建议', routeName: '' },
