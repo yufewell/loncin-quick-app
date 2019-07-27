@@ -100,6 +100,9 @@
       },
       "Mall/CouponsShow": {
         "component": "index"
+      },
+      "Mall/MyCoupns": {
+        "component": "index"
       }
     },
     "widgets": {
@@ -174,6 +177,9 @@
         "menu": false,
         "titleBarText": "隆鑫商城",
         "titleBar": false
+      },
+      "Mall/MyCoupns": {
+        "titleBarText": "我的优惠券"
       }
     }
   }
