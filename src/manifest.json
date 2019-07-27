@@ -63,7 +63,7 @@
     "data": {}
   },
   "router": {
-    "entry": "Mall/List",
+    "entry": "Index",
     "pages": {
       "Index": {
         "component": "index"
@@ -168,7 +168,9 @@
         "titleBar": true
       },
       "Mall/List": {
-        "titleBarText": "隆鑫商城"
+        "menu": false,
+        "titleBarText": "隆鑫商城",
+        "titleBar": false
       }
     }
   }
