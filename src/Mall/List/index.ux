@@ -1,0 +1,98 @@
+<import name="listMenu" src="../module/listMenu.ux"></import>
+
+<template>
+   <div class="root">
+        <div class="type">
+            <div>
+                <image class="image" src="../../Common/shengxian-2@2x.png" onclick="selectTag(1)" ></image>
+                <text>生鲜水果</text>
+            </div>
+            <div>
+                <image class="image1" src="../../Common/jiaju-copy-copy@2x.png" onclick="selectTag(1)"></image>
+                <text>家具好物</text>
+            </div>
+            <div>
+                <image class="image1" src="../../Common/riyongpin@2x.png" onclick="selectTag(1)"></image>
+                <text>家居日用</text>
+            </div>
+            <div>
+                <image class="image1" src="../../Common/present-fill@2x.png" onclick="selectTag(1)"></image>
+                <text>精选礼品</text>
+            </div>
+        </div> 
+        <listMenu couponlist="{{coupon_list}}"></listMenu>
+   </div>
+</template>
+<style>
+    .root {
+        width: 100%;
+        flex-direction: column;
+        background-color:#ECECEC;
+    }
+    .type {
+        width: 100%;
+        justify-content: space-between;
+        background-color: #FAFAFA;
+        padding: 20px 51px;
+    }
+
+    .image {
+        margin: auto;
+        width: 65px;
+        height: 65px;
+    }
+
+    .image1 {
+        margin: auto;
+        width: 61px;
+        height: 61px;
+    }
+
+    .type>div {
+        flex-direction: column;
+    }
+
+    .type>div text {
+        text-align: center;
+        height:34px;
+        font-size:24px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(131,33,38,1);
+        line-height:34px;
+    }
+</style>
+<script>
+import request from '../../lib/request'
+import fetch from '@system.fetch'
+export default {
+    protected: {
+        coupon_type: '1',
+        page: '1',
+        pagesize: '5',
+        coupon_list: [],
+        total: 0
+    },
+    async onInit() {
+        try {
+            await this.getLitsDate() 
+        } catch(e) {
+            console.error(e)
+        }
+    },
+    selectTag(id) {
+        if (id !== this.coupon_type) {
+           this.getLitsDate()
+        }
+    },
+    getLitsDate() {
+        request.get(`coupon/list?coupon_type=${this.coupon_type}&page=${this.page}&pagesize=${this.pagesize}`).then((res) => {
+            console.log(res)
+            if ('success' === res.msg) {
+                this.coupon_list = res.data && res.data.coupon_list
+                this.total = +(res.data && res.data.pager && res.data.pager.total || 0)
+            }
+        }) 
+    }
+}
+</script>

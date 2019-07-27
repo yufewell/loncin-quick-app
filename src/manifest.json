@@ -9,14 +9,14 @@
     {
       "name": "service.share",
       "params": {
-          "appSign": "",
-          "qqKey": "",
-          "wxKey": "",
-          "sinaKey": ""
+        "appSign": "",
+        "qqKey": "",
+        "wxKey": "",
+        "sinaKey": ""
       }
     },
     {
-        "name": "system.share"
+      "name": "system.share"
     },
     {
       "name": "system.prompt"
@@ -31,22 +31,25 @@
       "name": "system.fetch"
     },
     {
-        "name": "system.webview"
+      "name": "system.webview"
     },
     {
-        "name": "service.pay"
+      "name": "service.pay"
     },
     {
-        "name": "system.storage"
+      "name": "system.storage"
     },
     {
-        "name": "service.alipay"
+      "name": "service.alipay"
     },
     {
-        "name": "system.device"
+      "name": "system.device"
     },
     {
-        "name": "system.calendar"
+      "name": "system.calendar"
+    },
+    {
+      "name": "system.request"
     }
   ],
   "permissions": [
@@ -60,7 +63,7 @@
     "data": {}
   },
   "router": {
-    "entry": "Index",
+    "entry": "Mall/List",
     "pages": {
       "Index": {
         "component": "index"
@@ -84,6 +87,9 @@
         "component": "index"
       },
       "Demo": {
+        "component": "index"
+      },
+      "Mall/List": {
         "component": "index"
       }
     },
@@ -144,6 +150,9 @@
       "Home": {
         "menu": false,
         "titleBar": true
+      },
+      "Mall/List": {
+        "titleBarText": "隆鑫商城"
       }
     }
   }
