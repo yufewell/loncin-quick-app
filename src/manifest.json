@@ -106,6 +106,12 @@
       },
       "WuYe/Home": {
         "component": "index"
+      },
+      "PaymentRecords": {
+        "component": "index"
+      },
+      "Mall/PayCostShow": {
+        "component": "index"
       }
     },
     "widgets": {
@@ -190,6 +196,12 @@
         "titleBar": true,
         "titleBarBackgroundColor": "#8E2927",
         "titleBarTextColor": "#FBFBFB"
+      },
+      "PaymentRecords": {
+        "titleBarText": "缴费记录"
+      },
+      "Mall/PayCostShow": {
+        "titleBarText": "缴费详情"
       }
     }
   }

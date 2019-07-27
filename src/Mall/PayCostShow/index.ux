@@ -1,0 +1,99 @@
+<template>
+    <div class="root">
+        <div class="div">
+            <image src="../../Common/wuye/icon-weixiu@2x.png"></image>
+            <text style="margin-top:10px;text-align: center;height:22px;font-size:22px;font-family:PingFangSC-Regular;font-weight:500;color:rgba(51,51,51,1);line-height:22px;">物业费</text>
+            <text class="text">¥2000.00</text>
+        </div>
+        <div class="div1">
+            <div style="display:flex; justify-content: space-between;margin: 22px;">
+                <text class="text1">小区名称：</text>
+                <text class="text2">隆鑫天雨嘉园</text>
+            </div>
+            <div style="display:flex; justify-content: space-between;margin: 22px;">
+                <text class="text1">住址信息：</text>
+                <text class="text2">18栋-1单元-1107</text>
+            </div>
+            <div style="display:flex; justify-content: space-between;margin: 22px;">
+                <text class="text1">缴费姓名：</text>
+                <text class="text2">张天宇</text>
+            </div>
+            <div style="display:flex; justify-content: space-between;margin: 22px;">
+                <text class="text1">身份类型：</text>
+                <text class="text2">户主</text>
+            </div>
+               <div style="display:flex; justify-content: space-between;margin: 22px;">
+                <text class="text1">联系电话：</text>
+                <text class="text2">13062411845</text>
+            </div>
+            <div style="display:flex; justify-content: space-between;margin: 22px;">
+                <text class="text1">交易时间：</text>
+                <text class="text2">2019-08-30 14:22:20</text>
+            </div>
+            <div style="display:flex; justify-content: space-between;margin: 22px;">
+                <text class="text1">交易单号：</text>
+                <text class="text2">183913736736181638</text>
+            </div>
+           </div>
+        </div>
+    </div>
+</template>
+<style>
+     .root {
+        display: flex;
+        flex-direction:column;
+        background-color:#FAFAFA;
+    }
+    .div {
+        display: flex;
+        width: 100%;
+        flex-direction:column;
+        margin: auto;
+        margin-top: 0;
+        background-color: #ffffff;
+        margin-bottom: 10px;
+    }
+    .div1 {
+        width: 100%;
+        flex-direction:column;
+        background-color: #ffffff;
+    }
+    .text {
+        margin-top: 30px; 
+        margin-bottom: 44px;
+        text-align: center;
+        height:27px;
+        font-size:27px;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+        color:rgba(142,41,39,1);
+        line-height:27px;
+    }
+    image {
+        width: 77px;
+        height: 77px;
+        margin: auto;
+        margin-top: 34px;
+    }
+    .text1 {
+        /* width:135px; */
+        height:27px;
+        font-size:27px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(102,102,102,1);
+        line-height:27px;
+    }
+    .text2 {
+        /* width:160px; */
+        height:27px;
+        font-size:27px;
+        font-family:PingFangSC-Regular;
+        font-weight:400;
+        color:rgba(51,51,48,1);
+        line-height:27px;
+    }
+</style>
+<script>
+
+</script>
