@@ -44,6 +44,19 @@ npm run release
 
 ```
 
+### 项目相关：
+
+1、UI：
+
+https://lanhuapp.com/url/iHsq8-m6HvE
+
+2、API：
+
+https://www.eolinker.com/#/share/index?shareCode=e754iF
+
+3、原型：
+
+https://www.xiaopiu.com/h5/byId?type=project&id=5d27eded41a61c2f674f2218
 
 ### 注意：快应用踩坑
 
