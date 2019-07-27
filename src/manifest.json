@@ -100,6 +100,9 @@
       },
       "Mall/CouponsShow": {
         "component": "index"
+      },
+      "WuYe/Home": {
+        "component": "index"
       }
     },
     "widgets": {
@@ -174,6 +177,13 @@
         "menu": false,
         "titleBarText": "隆鑫商城",
         "titleBar": false
+      },
+      "WuYe/Home": {
+        "menu": false,
+        "titleBarText": "物业缴费",
+        "titleBar": true,
+        "titleBarBackgroundColor": "#8E2927",
+        "titleBarTextColor": "#FBFBFB"
       }
     }
   }

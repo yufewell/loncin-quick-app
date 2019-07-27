@@ -1,6 +1,6 @@
 <template>
   <div class="is-container">
-    <swiper show="{{isShow}}" loop="{{isLoop}}" class="quist-swiper {{animationClass}}" indicator="{{showIndicator}}" interval="{{time}}" autoplay="{{isAutoPlay}}" style="indicator-color: {{indicatorColor}}; indicator-selected-color: {{indicatorSelectedColor}}; indicator-size: {{indicatorSize}}; animation-duration: {{animationDuration}} ">
+    <swiper show="{{isShow}}" loop="{{loop}}" class="quist-swiper {{animationClass}}" indicator="{{showIndicator}}" interval="{{time}}" autoplay="{{autoplay}}" style="indicator-color: {{indicatorColor}}; indicator-selected-color: {{indicatorSelectedColor}}; indicator-size: {{indicatorSize}}; animation-duration: {{animationDuration}} ">
       <div class="quist-swiper-item" for="{{childs}}" @click="choose($idx)">
         <image class="quist-swiper-image" src="{{$item.url}}" />
       </div>
@@ -44,7 +44,7 @@
 import prompt from '@system.prompt'
 export default {
   props: {
-    isLoop: {
+    loop: {
       type: Boolean,
       default: false
 		},
@@ -68,7 +68,7 @@ export default {
       type: String,
       default: '8px'
     },
-    isAutoPlay: {
+    autoplay: {
       type: Boolean,
       default: false
 		},

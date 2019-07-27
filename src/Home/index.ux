@@ -11,7 +11,7 @@
       </div>
       <image class="message" src="/Common/icon-xiaoxi@2x.png"></image>
     </div>
-    <lc-swiper list="{{list}}"></lc-swiper>
+    <lc-swiper loop="{{false}}" autoplay="{{true}}" list="{{list}}"></lc-swiper>
     <div class="tabs">
       <div for="{{tabs}}" class="tab-item" @click="tabPage($item.routeName)">
         <image class="img" src="{{$item.url}}" alt=""></image>
@@ -61,7 +61,7 @@ export default {
       ],
       tabs: [
         { url: '/Common/icon-gonggao@2x.png', title: '社区公报', routeName: '/Notice/NoticeList' },
-        { url: '/Common/icon-jiaofei@2x.png', title: '物业缴费', routeName: '' },
+        { url: '/Common/icon-jiaofei@2x.png', title: '物业缴费', routeName: '/WuYe/Home' },
         { url: '/Common/icon-baoxiu@2x.png', title: '物业保修', routeName: '' },
         { url: '/Common/icon-goods@2x.png', title: '隆鑫商城', routeName: '/Mall/List' }
       ],
@@ -103,7 +103,8 @@ export default {
   tabPage(path) {
     if (path) {
       router.push ({
-        uri: path
+        uri: path,
+        params: path === '/WuYe/Home' ? { users: this.users } : {}
       })
     }
     console.log('path', path)
