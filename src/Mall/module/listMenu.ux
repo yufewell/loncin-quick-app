@@ -7,7 +7,7 @@
             </stack>
             <div class="div">
                 <text>{{item.coupon_name}}</text> 
-                <input class="btn" type="button" value="去领取" onclick="" />
+                <input class="btn" type="button" value="去领取" onclick="routePage(item.coupon_id)" />
             </div>
         </div>
     </div>
@@ -90,6 +90,9 @@
         props: ['couponlist'],
         onInit() {
             // console.log(JSON.stringify(this.tags))
+        },
+        routePage(id) {
+            router.push({ uri: '/Mall/CouponsShow', params: { couponId: id } })
         },
     }
 </script>

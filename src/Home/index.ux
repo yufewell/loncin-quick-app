@@ -98,7 +98,7 @@ export default {
   },
   // 领取优惠券 => 详情页
   routePage(id) {
-    console.log('couponId', id)
+    router.push({ uri: '/Mall/CouponsShow', params: { couponId: id } })
   },
   tabPage(path) {
     if (path) {

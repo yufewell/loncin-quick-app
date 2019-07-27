@@ -11,19 +11,19 @@
         </div>
         <div class="type">
             <div>
-                <image class="image" src="../../Common/shengxian-2@2x.png" onclick="selectTag(1)" ></image>
+                <image class="image" src="../../Common/shengxian-2@2x.png" onclick="selectTag('1')" ></image>
                 <text>生鲜水果</text>
             </div>
             <div>
-                <image class="image1" src="../../Common/jiaju-copy-copy@2x.png" onclick="selectTag(1)"></image>
+                <image class="image1" src="../../Common/jiaju-copy-copy@2x.png" onclick="selectTag('2')"></image>
                 <text>家具好物</text>
             </div>
             <div>
-                <image class="image1" src="../../Common/riyongpin@2x.png" onclick="selectTag(1)"></image>
+                <image class="image1" src="../../Common/riyongpin@2x.png" onclick="selectTag('3')"></image>
                 <text>家居日用</text>
             </div>
             <div>
-                <image class="image1" src="../../Common/present-fill@2x.png" onclick="selectTag(1)"></image>
+                <image class="image1" src="../../Common/present-fill@2x.png" onclick="selectTag('4')"></image>
                 <text>精选礼品</text>
             </div>
         </div> 
@@ -106,13 +106,14 @@ export default {
     },
     selectTag(id) {
         if (id !== this.coupon_type) {
+           this.coupon_type = id
            this.getLitsDate()
         }
     },
     getLitsDate() {
         request.get(`coupon/list?coupon_type=${this.coupon_type}&page=${this.page}&pagesize=${this.pagesize}`).then((res) => {
-            console.log(res)
             if ('success' === res.msg) {
+                // console.log(res.data,this.coupon_type)
                 this.coupon_list = res.data && res.data.coupon_list
                 this.total = +(res.data && res.data.pager && res.data.pager.total || 0)
             }

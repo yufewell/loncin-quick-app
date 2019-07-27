@@ -97,6 +97,9 @@
       },
       "Mall/List": {
         "component": "index"
+      },
+      "Mall/CouponsShow": {
+        "component": "index"
       }
     },
     "widgets": {
