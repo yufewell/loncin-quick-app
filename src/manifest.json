@@ -171,10 +171,9 @@
         "titleBar": true
       },
       "Mall/List": {
-        "titleBarText": "隆鑫商城"
-      },
-      "Mall/CouponsShow": {
-        "titleBarText": "优惠券详情"
+        "menu": false,
+        "titleBarText": "隆鑫商城",
+        "titleBar": false
       }
     }
   }

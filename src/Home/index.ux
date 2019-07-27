@@ -63,7 +63,7 @@ export default {
         { url: '/Common/icon-gonggao@2x.png', title: '社区公报', routeName: '/Notice/NoticeList' },
         { url: '/Common/icon-jiaofei@2x.png', title: '物业缴费', routeName: '' },
         { url: '/Common/icon-baoxiu@2x.png', title: '物业保修', routeName: '' },
-        { url: '/Common/icon-goods@2x.png', title: '隆鑫商城', routeName: '' }
+        { url: '/Common/icon-goods@2x.png', title: '隆鑫商城', routeName: '/Mall/List' }
       ],
       coupons: []
 
@@ -93,7 +93,7 @@ export default {
   },
   toMore() {
     router.push ({
-      uri: '/Index'
+      uri: '/Mall/List'
     })
   },
   // 领取优惠券 => 详情页
