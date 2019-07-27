@@ -15,7 +15,7 @@
         <lc-work-order title="我的问诊"></lc-work-order>
       </div>
       <div class="tab-content-section" if="{{ renderTabContent(2) }}">
-        <lc-profile title="设置"></lc-profile>
+        <lc-profile users="{{userInfo}}"></lc-profile>
       </div>
     </div>
   </div>

@@ -1,7 +1,25 @@
 <template>
-  <div class="ls-page">
-    <text class="title">{{aa}}</text>
-    <input class="btn" type="button" value="跳转到详情页" onclick="routeDetail" />
+  <div class="lc-page">
+    <div class="header">
+      <div class="bgc">
+        <div class="header-top">
+          <text class="change" @click="changeAddr">切换小区</text>
+        </div>
+        <div class="header-bottom">
+          <image class="head" src="/Common/profile/icon-profile-touxiang@2x.png"></image>
+          <div class="right">
+            <text class="name">{{name}}</text>
+            <text class="addr">{{addr}}</text>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tabs">
+      <div for="{{tabs}}" class="tab-item" @click="tabPage($item.routeName)">
+        <image class="img" src="{{$item.url}}" alt=""></image>
+        <text class="icon-title">{{$item.title}}</text>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -12,34 +30,42 @@
 <script>
 import prompt from '@system.prompt'
 import router from '@system.router'
-import shortcut from '@system.shortcut'
-import fetch from '@system.fetch'
-import request from '../lib/request'
-import storage from '../lib/storage'
+
 export default {
   props: {
-    title: {
-      type: String,
-      default: '',
-      required: false
+    users: {
+      type: Object,
+      default: {}
     }
   },
   data() {
     return {
-      aa: this.title,
-      authId: ''
+      userInfo: this.users,
+      addr: this.users.address || '暂无',
+      name: this.users.name || '暂无',
+      tabs: [
+        { url: '/Common/profile/icon-profile-jilu@2x.png', title: '缴纳记录', routeName: '' },
+        { url: '/Common/profile/icon-profile-gongdan@2x.png', title: '报修记录', routeName: '' },
+        { url: '/Common/profile/icon-profile-youhuiquan@2x.png', title: '优惠券', routeName: '' },
+        { url: '/Common/profile/icon-profile-tousujianyi@2x.png', title: '投诉建议', routeName: '' },
+        { url: '/Common/profile/icon-profile-kefu@2x.png', title: '联系客服', routeName: '' },
+      ],
     }
   },
   onInit() {
-    console.log('authId', this.authId)
   },
-  routeDetail () {
+  changeAddr () {
     router.push ({
-      uri: '/Index'
+      uri: '/SelectAddr'
     })
   },
-  onChange(e) {
-    console.log(`/${e.detail.value}`)
+  tabPage(path) {
+    if (path) {
+      router.push ({
+        uri: path
+      })
+    }
+    console.log('path', path)
   }
 }
 </script>
