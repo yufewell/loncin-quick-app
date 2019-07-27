@@ -10,7 +10,7 @@ function request(method = 'GET') {
         url: baseUrl + url,
         method,
         data,
-        header: { authorization: 'user._id', from: '' },
+        header: { authorization: 'user._id', from: '', token: '' },
         success: function (data) {
           // console.log(`接口：${baseUrl + url}: data: ${data}`)
           if (data.code !== 200) {

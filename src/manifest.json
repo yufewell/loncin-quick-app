@@ -83,6 +83,12 @@
       "SelectAddr": {
         "component": "index"
       },
+      "Notice/NoticeList": {
+        "component": "index"
+      },
+      "Notice/NoticeDetail": {
+        "component": "index"
+      },
       "Demo": {
         "component": "index"
       }
@@ -120,7 +126,7 @@
       "Login": {
         "menu": false,
         "titleBarText": "",
-        "titleBar": true
+        "titleBar": false
       },
       "SelectAddr": {
         "menu": false,
@@ -143,6 +149,16 @@
       },
       "Home": {
         "menu": false,
+        "titleBar": false
+      },
+      "Notice/NoticeList": {
+        "menu": false,
+        "titleBarText": "物业公告",
+        "titleBar": true
+      },
+      "Notice/NoticeDetail": {
+        "menu": false,
+        "titleBarText": "公告详情",
         "titleBar": true
       }
     }

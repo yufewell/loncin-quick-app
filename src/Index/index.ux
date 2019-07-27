@@ -9,7 +9,7 @@
     <div class="flexible-tab-content">
       <!-- if会重新绘制页面，show(会保留生命周期，做到缓存路由页面的效果) -->
       <div class="tab-content-section" show="{{ renderTabContent(0) }}">
-        <lc-home title="{{title}}" users="{{userInfo}}"></lc-home>
+        <lc-home users="{{userInfo}}"></lc-home>
       </div>  
       <div class="tab-content-section" show="{{ renderTabContent(1) }}">
         <lc-work-order title="我的问诊"></lc-work-order>

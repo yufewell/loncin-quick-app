@@ -11,6 +11,8 @@
 <style lang="less">
   .is-container {
     width: 100%;
+    background-color: #00ffff;
+    height: 290px;
   }
   .quist-swiper {
     /* position: fixed;
@@ -32,8 +34,7 @@
   }
   .quist-swiper-image {
     width: 100%;
-    /* height: 500px; */
-    /* background-color: #FF0000; */
+    height: 290px;
 		resize-mode: contain;
   }
   
@@ -41,9 +42,6 @@
 
 <script>
 import prompt from '@system.prompt'
-import router from '@system.router'
-import request from '../../lib/request'
-import storage from '../../lib/storage'
 export default {
   props: {
     isLoop: {
