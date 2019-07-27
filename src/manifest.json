@@ -63,7 +63,7 @@
     "data": {}
   },
   "router": {
-    "entry": "Mall/List",
+    "entry": "Index",
     "pages": {
       "Index": {
         "component": "index"
@@ -96,6 +96,9 @@
         "component": "index"
       },
       "Mall/List": {
+        "component": "index"
+      },
+      "Mall/CouponsShow": {
         "component": "index"
       }
     },
@@ -169,6 +172,9 @@
       },
       "Mall/List": {
         "titleBarText": "隆鑫商城"
+      },
+      "Mall/CouponsShow": {
+        "titleBarText": "优惠券详情"
       }
     }
   }
