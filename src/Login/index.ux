@@ -7,14 +7,25 @@
       <image src="/Common/logo@2x.png" class="logo" />
     </div>
     <div style="width: 80%; border: 2px solid rgba(142,41,39,1); border-radius: 34px;">
+<<<<<<< HEAD
       <lc-input id="name" name="name" border="0px" size="22px" maxlen="{{20}}" suffix="/Common/icon-edit-close.png"  placeholder='请输入姓名' @on-focus="focus" @on-blur="blur" @on-clear="clear" @on-change="nameChange"></lc-input>
     </div>
     <div style="width: 80%; padding-top: 34px;">
       <lc-input id="phone" name="phone" size="22px" type="number" maxlen="{{20}}" suffix="/Common/icon-edit-close.png"  placeholder='请输入手机号' @on-focus="focus" @on-blur="blur" @on-clear="clear" @on-change="phoneChange"></lc-input>
+=======
+      <lc-input id="name" containercss="height: 68px;padding-left: 30px; padding-right: 30px;" name="name" size="22px" maxlen="{{20}}" suffix="/Common/icon-edit-close.png"  placeholder='请输入姓名' @on-focus="focus" @on-blur="blur" @on-clear="clear" @on-change="nameChange"></lc-input>
     </div>
-    <div class="code" style="width: 80%; padding-top: 34px;">
+    <div style="width: 80%; border:2px solid rgba(159,156,156,1); border-radius: 34px; margin-top: 34px;">
+      <lc-input id="phone" containercss="height: 68px; padding-left: 30px;padding-right: 30px;" name="phone" size="22px" type="number" maxlen="{{20}}" suffix="/Common/icon-edit-close.png"  placeholder='请输入手机号' @on-focus="focus" @on-blur="blur" @on-clear="clear" @on-change="phoneChange"></lc-input>
+>>>>>>> d3a80120aaf887e40d7af693a1f22d201c097c2c
+    </div>
+    <div class="code" style="width: 80%; border:2px solid rgba(159,156,156,1); border-radius: 34px; margin-top: 34px;">
       <div style="flex: 1;">
+<<<<<<< HEAD
         <lc-input id="code" name="code" border="2px" type="number" maxlen="{{4}}" size="22px"  placeholder='输入短信验证码' @on-focus="focus" @on-blur="blur" @on-change="codeChange"></lc-input>
+=======
+        <lc-input id="code" containercss="height: 68px; padding-left: 30px; padding-right: 30px;" name="code" type="number" maxlen="{{4}}" size="22px"  placeholder='输入短信验证码' @on-focus="focus" @on-blur="blur" @on-change="codeChange"></lc-input>
+>>>>>>> d3a80120aaf887e40d7af693a1f22d201c097c2c
       </div>
       <div class="restart">
         <text if="{{!countdownTime}}" @click="restartSend">{{tips}}</text>
@@ -49,7 +60,7 @@ export default {
   },
   onInit() {
     setTimeout(() => {
-      this.$child('code').focus()
+      this.$child('name').focus()
     }, 1000)
   },
   onDestroy() {

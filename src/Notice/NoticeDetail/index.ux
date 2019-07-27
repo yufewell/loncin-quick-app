@@ -1,0 +1,159 @@
+<template>
+  <!-- template里只能有一个根节点 -->
+  <div class="detailContainer">
+    <div class="header" id="header">
+      <text class="title">{{noticeDetail.notify_name}}</text>
+    </div>
+    <text class='time'>{{noticeDetail.add_time}}</text>
+    <image class='img' src='/Common/icont-img@2x.png'></image>
+    <text class='txt'>具体公告详情</text>
+    <!-- <div class="contentCss">
+      <block for="{{ (index, item) in [] }}">
+        <div class="detailCss">
+          <div class="img">
+            <image style="width: 100%;" src={{item.url}}></image>
+          </div>
+          <div class="imgInfo">
+            <div class="info">
+              <text></text>
+            </div>
+          </div>
+          <div class="content">
+            <stack>
+              <div class="slot"></div>
+              <text show="{{item.content && item.content !== ''}}" class="txt">{{'     ' + item.content.trim()}}</text>
+            </stack>
+          </div>
+        </div>
+      </block>
+    </div> -->
+    <!-- <div class="bottomCategory" onclick="createShortIcon">
+      <text>点击创建桌面图标</text>
+    </div> -->
+  </div>
+</template>
+
+<style lang="less">
+  @import './detail.less';
+</style>
+
+<script>
+import prompt from '@system.prompt'
+import router from '@system.router'
+import shortcut from '@system.shortcut'
+import request from '../../lib/request'
+import storage from '../../lib/storage'
+import shareSe from '@service.share'
+export default {
+  protected: {
+    noticeId: '',                        // id
+    pageTitle: '物业公告',                // 页面标题
+    noticeDetail: {},                    // 详情
+    isCreateIcon: false,                 // 是否创建桌面图标
+  },
+  
+  onInit() {
+    this.getDetail()
+    setTimeout(() => {
+      this.$page.setTitleBar({ text: this.pageTitle })
+    }, 0)
+  },
+  onReady() {
+    // this.$element('header').disabled = false
+  },
+  // 分享 && 关于
+  onMenuPress () {
+    // console.info(`触发：onMenuPress`)
+    const that = this
+    prompt.showContextMenu({
+      itemList: [
+        '分享',
+        '关于',
+        '取消'
+      ],
+      itemColor: '#252525',
+      success: function (data) {
+        if (data && data.index === 0) {
+          // console.log(data.index)
+          that.share()
+        } else if (data && data.index === 1) {
+            router.push({
+              uri: '/About',
+              params: { }
+            })
+        }
+      },
+      cancel: function (data) {
+        console.log('handling cancel', JSON.stringify(data))
+      },
+      fail: function (data, code) {
+        console.log(`handling fail, code = ${code}`)
+      }
+    })
+  },
+  share() {
+    // const uri = await request.download('http:' + this.production.coverImages[0].url + '@!k160')
+    shareSe.share({
+      shareType: 0,
+      title: '分享的标题',
+      summary: '分享的摘要',
+      targetUrl: 'https://www.autodis.cn',
+      imagePath: '/Common/logo.png',
+      success: function (data) {
+        console.log('handling success')
+      },
+      fail: function (data, code) {
+        console.log(data)
+        console.log(`handling fail, code = ${code}`)
+      }
+    })
+  },
+  // 创建桌面图标
+  createShortIcon() {
+    const _this = this
+    prompt.showContextMenu({
+      itemList: [ '创建桌面', '取消' ],
+      itemColor: '#252525',
+      success: function (data) {
+        if (data && data.index === 0) {
+          if (_this.isCreateIcon) {
+            prompt.showToast({ message: '已创建桌面图标'})
+            return
+          }
+          shortcut.install({
+            async success () {
+              const create = await storage.get('create')
+              if (create === '1') {
+                prompt.showToast({ message: '已创建桌面图标'})
+                _this.isCreateIcon = true
+              } else {
+                await storage.set('create', '1')
+                _this.isCreateIcon = true
+                prompt.showToast({ message: '成功创建桌面图标'})
+              }
+            }
+          })
+        }
+      },
+      cancel: function (data) {
+        console.log('handling cancel', JSON.stringify(data))
+      },
+      fail: function (data, code) {
+        console.log(`handling fail, code = ${code}`)
+      }
+    })
+  },
+  // 获取组图详情数据
+  getDetail() {
+    if (!this.noticeId) {
+      return
+    }
+    request.get(`notify/detail/${this.noticeId}`, { notify_id: this.noticeId }).then(({ data }) => {
+      console.log('notify/detail', data)
+      if (data && data.notify_detail) {
+        this.noticeDetail = data.notify_detail
+      }
+    })
+  },
+}
+</script>

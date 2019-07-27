@@ -1,6 +1,9 @@
 <template>
   <stack>
-    <div class="quist-input" style="width: {{width}}; border-width: {{border}};">
+    <div class="quist-input" style="{{containercss}}">
+      <div if="{{showsearch}}">
+        <image src="/Common/icon-search@2x.png" style="{{searchcss}}" />
+      </div>
       <input id="quist-input-box" class="quist-input-box" style="font-size: {{size}};" name="{{name}}" maxlength="{{maxlen}" type="{{type}}" value="{{searchValue}}" placeholder="{{placeholder}}" disabled="{{disabled}}" @focus="onfocus" @blur="onblur" @change="onchange" />
       <div class="quist-input-suffix {{ showClear ? 'show-close' : 'hide-close'}}" @click="clearClick">
         <image src="{{suffixIcon}}" class="quist-input-img" />
@@ -11,10 +14,7 @@
 
 <style lang="less">
   .quist-input {
-    padding: 5px 30px;
-    height: 68px;
-    border-radius: 34px;
-    border: 2px solid rgba(159,156,156,1);
+    width: 100%;
     align-items: center;
     justify-content: space-between;
   }
@@ -29,6 +29,7 @@
     color: #000;
     line-height:31px;
     flex: 1;
+    border: 0;
   }
   .show-close {
     opacity: 1;
@@ -53,11 +54,31 @@ export default {
       type: Boolean,
       default: false
     },
+    showsearch: {
+      type: Boolean,
+      default: false
+    },
+    searchcss: {
+      type: String,
+      default: ''
+    },
+    containercss: {
+      type: String,
+      default: 'height: 68px;'
+    },
     width: {
       type: String,
       default: '100%'
     },
+    height: {
+      type: Number,
+      default: 68
+    },
     suffix: {
+      type: String,
+      default: ''
+    },
+    searchIcon: {
       type: String,
       default: ''
     },
