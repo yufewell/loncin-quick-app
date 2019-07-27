@@ -101,6 +101,9 @@
       "Mall/CouponsShow": {
         "component": "index"
       },
+      "Mall/MyCoupns": {
+        "component": "index"
+      },
       "WuYe/Home": {
         "component": "index"
       }
@@ -177,6 +180,9 @@
         "menu": false,
         "titleBarText": "隆鑫商城",
         "titleBar": false
+      },
+      "Mall/MyCoupns": {
+        "titleBarText": "我的优惠券"
       },
       "WuYe/Home": {
         "menu": false,

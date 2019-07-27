@@ -196,7 +196,11 @@ export default {
       if (doRender) {
         this.listData = this.listData.concat(notify_list)
       } else {
-        this.listData = [...notify_list, ...notify_list, ...notify_list]
+        let list = []
+        for (let i = 0; i < 10 ; i++) {
+          list = [...list,...notify_list]
+        }
+        this.listData = list 
       }
     })
   },
