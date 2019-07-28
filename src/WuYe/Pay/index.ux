@@ -6,12 +6,12 @@
           <text class="label">缴费类型：</text>
           <text class="right" style="color: #333333;">物业费</text>
         </div>
-        <div class="info-item" style="justify-content: start;">
+        <div class="info-item" style="">
           <text class="label">缴费金额（元）：</text>
-          <text class="right">
+          <div class="right">
             <text class="money">¥</text>
             <text class="value">{{totalMoney}}</text>
-          </text>
+          </div>
         </div>
       </div>
     </div>
@@ -85,6 +85,9 @@ export default {
     // prompt.showToast({
     //   message: `已选择, ${this.selectedType === 0 ? '微信' : '支付宝'}支付`
     // })
+  },
+  onOrder() {
+    // payment/unifiedorder
   }
 }
 </script>

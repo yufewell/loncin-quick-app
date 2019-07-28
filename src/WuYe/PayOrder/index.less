@@ -41,12 +41,13 @@
     }
     .right {
       display: flex;
-      color: #8E2927;
+      > text {
+        color: #8E2927;
+      }
       .money {
         font-size: 20px;
       }
       .value {
-        color: #8E2927;
         font-size: 31px;
       }
     }
@@ -110,8 +111,8 @@
   }
   .select {
     margin-right: 16px;
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    height: 30px;
   }
   .list {
     padding: 0px 20px;
@@ -169,9 +170,11 @@
     }
     .value {
       display: flex;
-      color: #F98B05;
       .money {
         font-size: 22px;
+      }
+      > text {
+        color: #F98B05;
       }
     }
   }

@@ -1,13 +1,15 @@
 <template>
-  <div class="ls-page" style="flex-direction: column;">
-    <text class="title">{{aa}}</text>
-    <list style="height: 100%;">
+  <div class="ls-page">
+    <div class="empty">
+      <text>暂无工单记录</text>
+    </div>
+    <!-- <list style="height: 100%;">
       <block for="(index, item) in list">
         <list-item type="index">
           <input class="btn" type="button" value="跳转到详情页{{index}}" onclick="routeDetail" />
         </list-item>
       </block>
-    </list>
+    </list> -->
   </div>
 </template>
 

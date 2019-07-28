@@ -14,7 +14,7 @@
           <text class="label">物业费：</text>
           <text class="value">¥{{paymentDetail.amount}}</text>
         </div>
-        <div class="info-item" style="justify-content: start;">
+        <div class="info-item">
           <text class="label">公摊费：</text>
           <text class="value">¥{{paymentDetail.amount}}</text>
         </div>

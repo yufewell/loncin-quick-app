@@ -9,7 +9,7 @@
       <block for="{{ (index, item) in payment_list}}" >
         <list-item type="product" class="list" onclick="routeShow(item.payment_id)">
           <div style="margin: 34px;">
-            <image src="../Common/wuye/icon-weixiu@2x.png"></image> 
+            <image src="../Common/jiaofei/icon-wuye@2x.png"></image> 
           </div>
           <div style="flex-direction:column;margin: 20px 0;width: 520px">
             <div class="div">
@@ -50,10 +50,13 @@
     }
     .option {
         font-size:26px;
+        padding: 5px 5px;
+        width: 200px;
         font-weight:400;
         color:rgba(51,51,51,1);
         line-height:26px;
-        border:2px solid rgba(142,41,39,1);
+        /* border-bottom-width: 2px;; */
+        /* border-bottom-color:rgba(142,41,39,1); */
     }
     .list {
         display: flex;
@@ -140,7 +143,6 @@ export default {
   },
   selectPayType (value) {
     if (value && value.newValue) {
-      this.height = 500
       this.payment_type = value.newValue
     }
   },

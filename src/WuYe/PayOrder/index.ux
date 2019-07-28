@@ -8,17 +8,17 @@
       <div class="info">
         <div class="info-item">
           <text class="label">预售公摊水电费余额：</text>
-          <text class="right">
+          <div class="right">
             <text class="money">¥</text>
             <text class="value">{{paymentDetail.amount}}</text>
-          </text>
+          </div>
         </div>
-        <div class="info-item" style="justify-content: start;">
+        <div class="info-item">
           <text class="label">预售物管费（住宅）余额：</text>
-          <text class="right">
+          <div class="right">
             <text class="money">¥</text>
             <text class="value">{{paymentDetail.amount}}</text>
-          </text>
+          </div>
         </div>
       </div>
     </div>
@@ -79,11 +79,11 @@
     </div>
     <div class="fixed-container">
     	<div class="left">
-        <text class="label">物业合计费用：</text>
-        <text class="value">
+        <text class="label">物业费合计：</text>
+        <div class="value">
           <text class="money">¥</text>
           <text style="font-size: 31px;font-weight:500;">{{totalMoney}}</text>
-        </text>
+        </div>
       </div>
       <input class="btn" type="button" value="立即缴费" onclick="onConfirm" />
     </div>
