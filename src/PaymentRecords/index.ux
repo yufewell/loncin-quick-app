@@ -185,7 +185,7 @@ export default {
   },
   routeShow(id) {
     if (id) {
-      router.push({ uri: '/Mall/PayCostShow', params: { payment_id: id } })
+      router.push({ uri: '/WuYe/PayCostShow', params: { payment_id: id } })
     }
   }
 }

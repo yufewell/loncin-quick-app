@@ -34,7 +34,7 @@
       </div>
     </div>
     <div class="btn-css">
-      <input class="btn" type="button" value="缴纳物业费" disabled="{{true}}" onclick="onConfirm" />
+      <input class="btn" type="button" value="缴纳物业费" onclick="onConfirm" />
     </div>
     <text class="quick">快捷缴费</text>
     <div class="tabs">
@@ -64,7 +64,7 @@ export default {
       { url: '/Common/wuye/dian@2x.png', title: '缴纳电费', routeName: '' },
       { url: '/Common/wuye/ranqifei@2x.png', title: '缴纳燃气费', routeName: '' },
       { url: '/Common/wuye/icon-gongnuan@2x.png', title: '缴纳供暖费', routeName: '' },
-      { url: '/Common/wuye/wuye-2@2x.png', title: '缴纳物业费', routeName: '' },
+      { url: '/Common/wuye/wuye-2@2x.png', title: '缴纳物业费', routeName: '/WuYe/PayOrder' },
       { url: '/Common/wuye/icon-socar-parking@2x.png', title: '缴纳停车费', routeName: '' }
     ],
   },
@@ -77,7 +77,7 @@ export default {
   },
   onConfirm () {
     router.push ({
-      uri: '/Index'
+      uri: '/WuYe/PayOrder'
     })
   },
   tabPage(path) {

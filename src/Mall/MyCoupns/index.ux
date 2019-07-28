@@ -1,25 +1,25 @@
 <template>
-    <div class="root">
-        <list onscrollbottom="renderMoreListItem">
-            <block for="{{ (index, item) in coupon_list}}" >
-                <list-item type="product" class="list">
-                <stack class="stack">
-                    <image src="{{item.icon || 'http://img.redocn.com/sheying/20150213/mulanweichangcaoyuanfengjing_3951976.jpg'}}"></image>
-                    <!-- <input class="text" type="button" value="{{'有效期至：' + item.end_time.substring(0, 10)}}" /> -->
-                </stack>
-                <div class="div">
-                    <text>{{item.coupon_name}}</text> 
-                    <input class="btn" type="button" value="已领取" onclick="routePage(item.coupon_id)" />
-                </div>
-                </list-item>
-            </block>
-    
-            <list-item type="loadStatus" class="load-status">
-                <progress type="circular" show="{{hasMoreData}}"></progress>
-                <text show="{{hasMoreData}}">正在加载···</text>
-            </list-item>
-        </list>
-    </div>
+  <div class="root">
+    <list onscrollbottom="renderMoreListItem">
+      <block for="{{ (index, item) in coupon_list}}" >
+        <list-item type="product" class="list" onclick="routePage(item.coupon_id)">
+          <stack class="stack">
+            <image src="{{item.icon || 'http://img.redocn.com/sheying/20150213/mulanweichangcaoyuanfengjing_3951976.jpg'}}"></image>
+            <!-- <input class="text" type="button" value="{{'有效期至：' + item.end_time.substring(0, 10)}}" /> -->
+          </stack>
+          <div class="div">
+            <text>{{item.coupon_name}}</text> 
+            <input class="btn" type="button" value="已领取" />
+            <!-- <input class="btn" type="button" value="已领取" onclick="routePage(item.coupon_id)" /> -->
+          </div>
+        </list-item>
+      </block>
+      <list-item type="loadStatus" class="load-status">
+        <progress type="circular" show="{{hasMoreData}}"></progress>
+        <text show="{{hasMoreData}}">正在加载···</text>
+      </list-item>
+    </list>
+  </div>
 </template>
 <style>
     .root {
@@ -99,67 +99,74 @@
 <script>
 import fetch from '@system.fetch'
 import request from '../../lib/request'
+import router from '@system.router'
 export default {
-    protected: {
-        coupon_type: '1',
-        page: 1,
-        pagesize: 5,
-        coupon_list: [],
-        freshing: false,  
-        hasMoreData: true,
-        isLoadingData: false
-    },
-    onInit() {
-        this.getList()
-    },
-
-    // 刷新
-    onRefresh(evt) {
-        this.freshing = evt.refreshing
-        this.page = 1
-        setTimeout(() => {
-            this.freshing = false
-            this.getList()
-        }, 1000)
-    },
-   
-    getList(doRender = false) {
-        request.get(`coupon/list?coupon_type=${this.coupon_type}&page=${this.page}&pagesize=${this.pagesize}`).then(({ data }) => {
-            const coupon_list = data.coupon_list || []
-            if (!data) {
-                if (doRender) {
-                    this.hasMoreData = false
-                    return
-                }
-            }
-        if (!Array.isArray(coupon_list) || !coupon_list.length) {
-            if (doRender) {
-                setTimeout(() => {
-                this.isMoreData = true
-            }, 3000)
-            return
-            }
-        }
+  protected: {
+    coupon_type: '1',
+    page: 1,
+    pagesize: 5,
+    coupon_list: [],
+    freshing: false,  
+    hasMoreData: true,
+    isLoadingData: false
+  },
+  onInit() {
+    this.getList()
+  },
+  // 刷新
+  onRefresh(evt) {
+    this.freshing = evt.refreshing
+    this.page = 1
+    setTimeout(() => {
+      this.freshing = false
+      this.getList()
+    }, 1000)
+  },
+  
+  getList(doRender = false) {
+    request.get(`coupon/list?coupon_type=${this.coupon_type}&page=${this.page}&pagesize=${this.pagesize}`).then(({ data }) => {
+      const coupon_list = data.coupon_list || []
+      if (!data) {
         if (doRender) {
-            this.coupon_list = this.coupon_list.concat(coupon_list)
-        } else {
-            this.coupon_list = coupon_list
-        }})
-    },
-
-    /**
-     * 滑动到底部时加载更多
-     */
-    renderMoreListItem () {
-        if (!this.isLoadingData) {
-            this.hasMoreData = true
-            this.isMoreData = false
+          this.hasMoreData = false
+          return
         }
-        this.page++
-        this.getList(true)
-        setTimeout(() => {
-            this.hasMoreData = false
-        }, 500)
-    },
+      }
+      if (!Array.isArray(coupon_list) || !coupon_list.length) {
+        if (doRender) {
+          setTimeout(() => {
+            this.isMoreData = true
+          }, 3000)
+          return
+        }
+      }
+      if (doRender) {
+        this.coupon_list = this.coupon_list.concat(coupon_list)
+      } else {
+        this.coupon_list = coupon_list
+      }
+    })
+  },
+  /**
+   * 滑动到底部时加载更多
+   */
+  renderMoreListItem () {
+    if (!this.isLoadingData) {
+      this.hasMoreData = true
+      this.isMoreData = false
+    }
+    this.page++
+    this.getList(true)
+    setTimeout(() => {
+      this.hasMoreData = false
+    }, 500)
+  },
+  // 领取优惠券 => 详情页
+  routePage(id) {
+    // console.log(id)
+    if (id) {
+      router.push({ uri: '/Mall/CouponsShow', params: { couponId: id } })
+    }
+  },
 }
 </script>

@@ -110,7 +110,13 @@
       "PaymentRecords": {
         "component": "index"
       },
-      "Mall/PayCostShow": {
+      "WuYe/PayCostShow": {
+        "component": "index"
+      },
+      "WuYe/PayOrder": {
+        "component": "index"
+      },
+      "WuYe/Pay": {
         "component": "index"
       }
     },
@@ -200,8 +206,16 @@
       "PaymentRecords": {
         "titleBarText": "缴费记录"
       },
-      "Mall/PayCostShow": {
+      "WuYe/PayCostShow": {
         "titleBarText": "缴费详情"
+      },
+      "WuYe/PayOrder": {
+        "titleBarText": "物业缴费",
+        "menu": false
+      },
+      "WuYe/Pay": {
+        "titleBarText": "物业缴费",
+        "menu": false
       }
     }
   }
