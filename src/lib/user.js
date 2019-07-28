@@ -44,6 +44,9 @@ export default class User {
    */
   logout() {
     storage.delete('user')
+    router.push({
+      uri: '/Login'
+    })
   }
 }
 

@@ -1,16 +1,19 @@
 import fetch from '@system.fetch'
 import prompt from '@system.prompt'
 import nativeRequest from '@system.request'
+import { getUser } from './login'
 
 function request(method = 'GET') {
   return (url, data = {}) => {
     return new Promise(async (resolve, reject) => {
+      const user = await getUser()
+      const token = user.token || ''
       const baseUrl = 'http://lxwy.yufewell.cn/'
       const options = {
         url: baseUrl + url,
         method,
         data,
-        header: { authorization: 'user._id', from: '', token: '' },
+        header: { authorization: '', token: token },
         success: function (data) {
           // console.log(`接口：${baseUrl + url}: data: ${data}`)
           if (data.code !== 200) {

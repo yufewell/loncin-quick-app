@@ -35,84 +35,83 @@
 </style>
 
 <script>
-  import prompt from '@system.prompt'
-  import router from '@system.router'
-  import request from '../lib/request'
-  import User from '../lib/user'
-
-  const user = new User()
-  export default {
-    timer: null,
-    protected: {
-      title: '手机号注册',
-      phone: '',
-      code: '',
-      name: '',
-      isBackPassword: false,
-      countdownTime: 0,
-      tips: '获取验证码',
-    },
-    onInit() {
-      setTimeout(() => {
-        this.$child('name').focus()
-      }, 1000)
-    },
-    onDestroy() {
-      if (this.timer) clearInterval(this.timer)
-    },
-    async submit() {
-      if (!this.name) {
-        return prompt.showToast({
-          message: '请输入姓名！'
-        })
-      }
-      if (!/^\d{6}$/.test(this.code)) {
-        return prompt.showToast({
-          message: '请输入验证码！'
-        })
-      }
-      await user.login(this.name, this.phone, this.code).then(async (res) => {
-        if (res.code === 0) {
-          prompt.showToast({ message: '登录成功！' })
-          // 如果业主只有一套房子，直接进入首页，若业主有多套房子，进入选择页面
-          return router.push({
-            uri: '/SelectAddr',
-            params: {}
-          })
-        }
+import prompt from '@system.prompt'
+import router from '@system.router'
+import request from '../lib/request'
+import User from '../lib/user'
+const user = new User()
+export default {
+  timer: null,
+  protected: {
+    title: '手机号注册',
+    phone: '',
+    code: '',
+    name: '',
+    isBackPassword: false,
+    countdownTime: 0,
+    tips: '获取验证码',
+  },
+  onInit() {
+    setTimeout(() => {
+      this.$child('name').focus()
+    }, 1000)
+  },
+  onDestroy() {
+    if (this.timer) clearInterval(this.timer)
+  },
+  async submit() {
+    // if (!this.name) {
+    //   return prompt.showToast({
+    //     message: '请输入姓名！'
+    //   })
+    // }
+    if (!/^\d{6}$/.test(this.code)) {
+      return prompt.showToast({
+        message: '请输入验证码！'
       })
-    },
-    restartSend() {
-      if (!/^\d{11}$/.test(this.phone)) {
-        return prompt.showToast({ message: '请输入正确的手机号' })
-      }
-      this.countdownTime = 90
-      this.tips = '重新获取'
-      this.timer && clearInterval(this.timer)
-      this.timer = setInterval(() => {
-        this.countdownTime--
-        if (this.countdownTime <= 0 && this.timer) {
-          clearInterval(this.timer)
-          this.countdownTime = 0
-        }
-      }, 1000)
-      // 发起短信请求获取验证码
-      if (this.phone) {
-        request.post('captcha', { phone: this.phone }).then((res) => {
-          console.log('获取验证码', res)
+    }
+    await user.login(this.name, this.phone, this.code).then(async (res) => {
+      if (res.code === 0) {
+        prompt.showToast({ message: '登录成功！' })
+        // 如果业主只有一套房子，直接进入首页，若业主有多套房子，进入选择页面
+        return router.push({
+          uri: '/SelectAddr',
+          params: {}
         })
       }
-    },
-    codeChange(e) {
-      this.code = e.detail.value
-    },
-    nameChange(e) {
-      this.name = e.detail.value
-    },
-    phoneChange(e) {
-      this.phone = e.detail.value
-    },
-    clear() {
-    },
-  }
+    })
+  },
+  restartSend() {
+    if (!/^\d{11}$/.test(this.phone)) {
+      return prompt.showToast({ message: '请输入正确的手机号' })
+    }
+    this.countdownTime = 90
+    this.tips = '重新获取'
+    this.timer && clearInterval(this.timer)
+    this.timer = setInterval(() => {
+      this.countdownTime--
+      if (this.countdownTime <= 0 && this.timer) {
+        clearInterval(this.timer)
+        this.countdownTime = 0
+      }
+    }, 1000)
+    // 发起短信请求获取验证码
+    if (this.phone) {
+      request.post('captcha', { phone: this.phone }).then((res) => {
+        console.log('获取验证码', res)
+      })
+    }
+  },
+  codeChange(e) {
+    this.code = e.detail.value
+  },
+  nameChange(e) {
+    this.name = e.detail.value
+  },
+  phoneChange(e) {
+    this.phone = e.detail.value
+  },
+  clear() {
+  },
+}
 </script>
