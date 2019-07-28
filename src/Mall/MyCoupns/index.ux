@@ -1,24 +1,24 @@
 <template>
     <div class="root">
-    <list onscrollbottom="renderMoreListItem">
-        <block for="{{ (index, item) in coupon_list}}" >
-            <list-item type="product" class="list">
-            <stack class="stack">
-                <image src="{{item.icon || 'http://img.redocn.com/sheying/20150213/mulanweichangcaoyuanfengjing_3951976.jpg'}}"></image>
-                <!-- <input class="text" type="button" value="{{'有效期至：' + item.end_time.substring(0, 10)}}" /> -->
-            </stack>
-            <div class="div">
-                <text>{{item.coupon_name}}</text> 
-                <input class="btn" type="button" value="已领取" onclick="routePage(item.coupon_id)" />
-            </div>
+        <list onscrollbottom="renderMoreListItem">
+            <block for="{{ (index, item) in coupon_list}}" >
+                <list-item type="product" class="list">
+                <stack class="stack">
+                    <image src="{{item.icon || 'http://img.redocn.com/sheying/20150213/mulanweichangcaoyuanfengjing_3951976.jpg'}}"></image>
+                    <!-- <input class="text" type="button" value="{{'有效期至：' + item.end_time.substring(0, 10)}}" /> -->
+                </stack>
+                <div class="div">
+                    <text>{{item.coupon_name}}</text> 
+                    <input class="btn" type="button" value="已领取" onclick="routePage(item.coupon_id)" />
+                </div>
+                </list-item>
+            </block>
+    
+            <list-item type="loadStatus" class="load-status">
+                <progress type="circular" show="{{hasMoreData}}"></progress>
+                <text show="{{hasMoreData}}">正在加载···</text>
             </list-item>
-        </block>
-
-        <list-item type="loadStatus" class="load-status">
-            <progress type="circular" show="{{hasMoreData}}"></progress>
-            <text show="{{hasMoreData}}">正在加载···</text>
-        </list-item>
-  </list>
+        </list>
     </div>
 </template>
 <style>
