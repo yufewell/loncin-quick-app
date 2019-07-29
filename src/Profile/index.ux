@@ -54,7 +54,7 @@ export default {
         { url: '/Common/profile/icon-profile-gongdan@2x.png', title: '报修记录', routeName: 'WorkOrder/HistoryList' },
         { url: '/Common/profile/icon-profile-youhuiquan@2x.png', title: '优惠券', routeName: '/Mall/MyCoupns' },
         { url: '/Common/profile/icon-profile-tousujianyi@2x.png', title: '投诉建议', routeName: 'AddComplain' },
-        { url: '/Common/profile/icon-profile-kefu@2x.png', title: '联系客服', routeName: '' },
+        { url: '/Common/profile/icon-profile-kefu@2x.png', title: '联系客服', routeName: 'goPhone' },
       ],
       selectAddr: {},
       address: ''
@@ -79,6 +79,10 @@ export default {
     })
   },
   tabPage(path) {
+    if (path && path === 'goPhone') {
+      this.showDialog()
+      return
+    }
     if (path) {
       router.push ({
         uri: path
@@ -121,6 +125,38 @@ export default {
       },
       fail: function (data, code) {
         console.log(`handling fail, code = ${code}`)
+      }
+    })
+  },
+  showDialog () {
+    prompt.showDialog({
+      title: '客服电话',
+      message: '是否拨打客服电话',
+      buttons: [
+        {
+          text: '确定',
+          color: '#0faeff'
+        },{
+          text: '取消'
+        },{
+          text: '忽略'
+        }
+      ],
+      success: function (ret) {
+        if (ret.index === 0) {
+          // launch phone app
+          router.push({
+            uri: 'tel:10086'
+          })
+        }
+        // prompt.showToast({
+        //   message: '成功回调:选中按钮序号---' + ret.index
+        // })
+      },
+      cancel: function () {
+        prompt.showToast({
+          message: '取消'
+        })
       }
     })
   },

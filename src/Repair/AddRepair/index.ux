@@ -42,7 +42,7 @@ export default {
     }
   },
   onInit() {
-    
+
   },
   goHistoty () {
     router.push ({
@@ -53,10 +53,42 @@ export default {
     router.back()
   },
   onPhone() {
-    
+    this.showDialog()
   },
   onConfirm() {
-    
-  }
+
+  },
+  showDialog () {
+    prompt.showDialog({
+      title: '报修电话',
+      message: '是否拨打报修电话',
+      buttons: [
+        {
+          text: '确定',
+          color: '#0faeff'
+        },{
+          text: '取消'
+        },{
+          text: '忽略'
+        }
+      ],
+      success: function (ret) {
+        if (ret.index === 0) {
+          // launch phone app
+          router.push({
+            uri: 'tel:10086'
+          })
+        }
+        // prompt.showToast({
+        //   message: '成功回调:选中按钮序号---' + ret.index
+        // })
+      },
+      cancel: function () {
+        prompt.showToast({
+          message: '取消'
+        })
+      }
+    })
+  },
 }
 </script>
