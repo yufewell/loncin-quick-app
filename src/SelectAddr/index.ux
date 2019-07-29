@@ -84,11 +84,18 @@ export default {
     border-radius:34px;
     border:2px solid rgba(142,41,39,1);
     margin-bottom: 15px;
+    padding: 2px 20px;
   }
   .option {
+    font-size:26px;
+    padding: 5px 20px 5px 5px;
+    width: 200px;
+    font-weight:400;
+    color:rgba(51,51,51,1);
+    line-height:26px;
   }
   .option-plots {
-    border:2px solid rgba(142,41,39,1);
+    /* border:2px solid rgba(142,41,39,1); */
     /* border-bottom-width: 1px;
     border-bottom-color: #7fffd4; */
   }
