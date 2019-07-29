@@ -9,7 +9,7 @@
           <image class="head" src="/Common/profile/icon-profile-touxiang@2x.png"></image>
           <div class="right">
             <text class="name">{{name}}</text>
-            <text class="addr">{{addr}}</text>
+            <text class="addr">{{address}}</text>
           </div>
         </div>
       </div>
@@ -34,6 +34,7 @@
 import prompt from '@system.prompt'
 import router from '@system.router'
 import User from '../lib/user'
+import storage from '../lib/storage'
 const user = new User()
 
 export default {
@@ -46,7 +47,6 @@ export default {
   data() {
     return {
       userInfo: this.users,
-      addr: this.users.address || '暂无',
       name: this.users.name || '暂无',
       tabs: [
         { url: '/Common/profile/icon-profile-jilu@2x.png', title: '缴纳记录', routeName: '/PaymentRecords' },
@@ -55,9 +55,15 @@ export default {
         { url: '/Common/profile/icon-profile-tousujianyi@2x.png', title: '投诉建议', routeName: '' },
         { url: '/Common/profile/icon-profile-kefu@2x.png', title: '联系客服', routeName: '' },
       ],
+      selectAddr: {},
+      address: ''
     }
   },
-  onInit() {
+  async onInit() {
+    const selectAddr = await storage.getJSON('selectAddr') || {}
+    this.selectAddr = selectAddr
+    this.address = selectAddr.address || ''
+    console.log('sadasd', this.selectAddr)
   },
   changeAddr () {
     router.push ({

@@ -1,6 +1,6 @@
 <import name="lc-tabs" src="../components/lc-tabs/index"></import>
 <import name="lc-home" src="../Home/index"></import>
-<import name="lc-work-order" src="../WorkOrder/index"></import>
+<import name="lc-work-order" src="../WorkOrder/Home/index"></import>
 <import name="lc-profile" src="../Profile/index"></import>
 
 <template>
