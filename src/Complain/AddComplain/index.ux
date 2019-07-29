@@ -1,0 +1,55 @@
+<template>
+  <div class="work-page">
+    <div class="header">
+      <div class="back">
+        <image @click="goBack" src="/Common/icon-back-black-arrow.png"></image>
+      </div>
+      <text class="title">投诉建议</text>
+      <text @click="goHistory" class="histoty">历史记录</text>
+    </div>
+    <div class="top">
+      <text class="title">投诉、建议（必填）</text>
+      <div style="flex-grow: 1;border: 1px solid #cccccc;">
+        <textarea class="xui-input-round" style="height: 200px;flex-grow: 1;" maxlength="400" placeholder="请输入您要写入的内容"></textarea>
+      </div>
+    </div>
+    <div class="add" >
+      <text>添加图片</text>
+    </div>
+    <div class="fixed-container">
+      <input class="btn" type="button" value="立即提交" onclick="onConfirm" />
+    </div>
+  </div>
+</template>
+
+<style lang="less">
+  @import './index.less';
+</style>
+
+<script>
+import prompt from '@system.prompt'
+import router from '@system.router'
+import request from '../../lib/request'
+import storage from '../../lib/storage'
+export default {
+  data() {
+    return {
+      deviceInfo: {},
+    }
+  },
+  onInit() {
+    
+  },
+  goHistory () {
+    router.push ({
+      uri: '/Complain/ComplainList'
+    })
+  },
+  goBack() {
+    router.back()
+  },
+  onConfirm() {
+
+  }
+}
+</script>

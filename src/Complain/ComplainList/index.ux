@@ -1,0 +1,142 @@
+<template>
+  <div class="history-page">
+    <list class="listContainer" onscrollbottom="renderMoreListItem">
+      <block for="{{listData}}">
+        <!-- product -->
+        <list-item type="product" class="list-item">
+          <div class="item-top">
+            <div class="icon-value">
+              <image src="/Common/dingdan2-copy@2x.png"></image>
+              <text class="num">投诉内容</text>
+            </div>
+            <text class="label">{{$item.status === "1" ? 已受理 : "未受理"}}</text>
+          </div>
+          <div class="item-top item-common">
+            <text class="value">{{$item.content}}</text>
+          </div>
+        </list-item>
+        <!-- black -->
+        <list-item type="black" class="item-black"></list-item>
+        <!-- banner -->
+        <list-item type="banner" if="$item.isExpand" class="item-progress">
+          <text>图片</text>
+          <div class="inner">
+            <block for="(index, row) in $item.pics">
+              <div class="cu-coldCss" style="flex-warp: warp;">
+                <image style="flex: 1;height: 123px;" src=""></image>
+              </div>
+            </block>
+          </div>
+        </list-item>
+        <!-- expand -->
+        <list-item type="expand" class="expand-list">
+          <div class="expand" @click="onExpand($item)">
+            <text class="expand-title">{{$item.isExpand ? '收起' : '点击查看详情'}}</text>
+            <image class="expand-icon" src="/Common/work/{{$item.isExpand ? 'icon-down' : 'xiangshang'}}@2x.png"></image>
+          </div>
+        </list-item>
+        <!-- black -->
+        <list-item type="black" class="item-black"></list-item>
+      </block>
+      <list-item type="loadStatus" class="load-status">
+        <progress type="circular" show="{{hasMoreData}}"></progress>
+        <text show="{{hasMoreData}}"></text>
+      </list-item>
+    </list>
+  </div>
+</template>
+
+<style lang="less">
+  @import './list.less';
+</style>
+
+<script>
+import prompt from '@system.prompt'
+import router from '@system.router'
+import request from '../../lib/request'
+import storage from '../../lib/storage'
+export default {
+  data: {
+    freshing: false,              // 是否刷新
+    hasMoreData: true,           // 上拉加载数据状态
+    pageSize: 10,                 // 页数
+    pageIndex: 1,                 // 页码
+    isLoadingData: false,         // 是否正在fetch请求数据
+    listData: [],                 // 列表数据
+    isMoreData: false,            // 是否还有更多数据
+    isExpand: false,
+  },
+  onInit(){
+    // 获取数据并渲染列表
+    this.getList()
+  },
+  
+  // 滑动到底部时加载更多
+  renderMoreListItem () {
+    if (!this.isLoadingData) {
+      this.hasMoreData = true
+      this.isMoreData = false
+    }
+    this.pageIndex++
+    this.getList(true)
+    setTimeout(() => {
+      this.hasMoreData = false
+    }, 3000)
+  },
+  // 获取列表数据
+  getList(doRender = false) {
+    request.get(`complain/history?page=${this.pageIndex}&pagesize=${this.pageSize}`).then(({ data }) => {
+      console.log('complain/history', data)
+      const newList = data.complain_list || []
+      const list = this.changeListIsExpand(false, newList) || []
+      console.log(this.changeListIsExpand(false, list))
+      if (!data) {
+        if (doRender) {
+          this.hasMoreData = false
+          return
+        }
+      }
+      if (!Array.isArray(list) || !list.length) {
+        if (doRender) {
+          setTimeout(() => {
+            this.isMoreData = true
+          }, 3000)
+          return
+        }
+      }
+      if (doRender) {
+        this.listData = this.listData.concat(list)
+      } else {
+        this.hasMoreData = false
+        this.listData = list 
+      }
+    })
+  },
+  changeListIsExpand(isExpand, list) {
+    if (Array.isArray(list) && !!list.length) {
+      return list.map(item => {
+        return {
+          ...item,
+          isExpand: isExpand,
+        }
+      })
+    }
+  },
+  onExpand(row) {
+    if(!row) {
+      return
+    }
+    this.listData = this.listData.map((item) => {
+      if (item.complain_id === row.complain_id) {
+        return {
+          ...item,
+          isExpand: !item.isExpand
+        }
+      } else {
+        return item
+      }
+    })
+  }
+}
+</script>
+  

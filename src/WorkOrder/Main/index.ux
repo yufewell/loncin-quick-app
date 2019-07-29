@@ -99,7 +99,7 @@ export default {
       isLoadingData: false,         // 是否正在fetch请求数据
       listData: [],                 // 列表数据
       isMoreData: false,            // 是否还有更多数据
-      isExpand: false,
+      isExpand: true,
       isEmpty: false,
       deviceInfo: {},
     }
@@ -107,13 +107,7 @@ export default {
   async onInit() {
     // 获取数据并渲染列表
     this.getList()
-    // setTimeout(() => {
-    //   if (Array.isArray(this.list) && !!this.list.length) {
-    //     this.isEmpty = false
-    //   }
-    // }, 2000)
     this.deviceInfo = await storage.getJSON('deviceInfo') || {}
-    console.log(this.deviceInfo)
   },
   goHistoty () {
     router.push ({
@@ -136,8 +130,7 @@ export default {
   getList(doRender = false) {
     request.get(`propertyrepair/history?page=${this.pageIndex}&pagesize=${this.pageSize}&status=${this.status}`).then(({ data }) => {
       const newList = data.property_repair_list || []
-      const list = this.changeListIsExpand(false, newList) || []
-      console.log(this.changeListIsExpand(false, list))
+      const list = this.changeListIsExpand(true, newList) || []
       if (!data) {
         if (doRender) {
           this.hasMoreData = false

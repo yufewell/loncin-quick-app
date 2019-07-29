@@ -121,6 +121,15 @@
       },
       "WuYe/Pay": {
         "component": "index"
+      },
+      "Repair/AddList": {
+        "component": "index"
+      },
+      "Complain/ComplainList": {
+        "component": "index"
+      },
+      "Complain/AddComplain": {
+        "component": "index"
       }
     },
     "widgets": {
@@ -222,6 +231,18 @@
       },
       "WorkOrder/HistoryList": {
         "titleBarText": "历史记录",
+        "menu": false
+      },
+      "Repair/AddRepair": {
+        "titleBarText": "物业报修",
+        "menu": false
+      },
+      "Complain/ComplainList": {
+        "titleBarText": "投诉记录",
+        "menu": false
+      },
+      "Complain/AddComplain": {
+        "titleBarText": "投诉建议",
         "menu": false
       }
     }

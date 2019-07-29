@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="btn-css">
-      <input class="btn" type="button" value="logout" onclick="onLoginOut" />
+      <input class="btn" type="button" value="退出登陆" onclick="onLoginOut" />
     </div>
   </div>
 </template>
@@ -51,9 +51,9 @@ export default {
       name: this.users.name || '暂无',
       tabs: [
         { url: '/Common/profile/icon-profile-jilu@2x.png', title: '缴纳记录', routeName: '/PaymentRecords' },
-        { url: '/Common/profile/icon-profile-gongdan@2x.png', title: '报修记录', routeName: '' },
+        { url: '/Common/profile/icon-profile-gongdan@2x.png', title: '报修记录', routeName: 'WorkOrder/HistoryList' },
         { url: '/Common/profile/icon-profile-youhuiquan@2x.png', title: '优惠券', routeName: '/Mall/MyCoupns' },
-        { url: '/Common/profile/icon-profile-tousujianyi@2x.png', title: '投诉建议', routeName: '' },
+        { url: '/Common/profile/icon-profile-tousujianyi@2x.png', title: '投诉建议', routeName: 'AddComplain' },
         { url: '/Common/profile/icon-profile-kefu@2x.png', title: '联系客服', routeName: '' },
       ],
       selectAddr: {},
