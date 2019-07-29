@@ -30,7 +30,7 @@
           <image class="icon" style="height: 26px;" src="/Common/wuye/weizhi@2x.png"></image>
           <text class="label">地址</text>
          </div>
-        <text class="value">{{users.address}}</text>
+        <text class="value">{{address}}</text>
       </div>
     </div>
     <div class="btn-css">
@@ -54,6 +54,7 @@
 import prompt from '@system.prompt'
 import router from '@system.router'
 import User from '../../lib/user'
+import storage from '../../lib/storage'
 const user = new User()
 
 export default {
@@ -67,13 +68,18 @@ export default {
       { url: '/Common/wuye/wuye-2@2x.png', title: '缴纳物业费', routeName: '/WuYe/PayOrder' },
       { url: '/Common/wuye/icon-socar-parking@2x.png', title: '缴纳停车费', routeName: '' }
     ],
+    selectAddr: {},
+    address: ''
   },
   async onInit() {
     const userInfo = await user.getLocal()
     if (userInfo) {
       this.users = userInfo
     }
-    console.log('wuye-userInfo', userInfo)
+    const selectAddr = await storage.getJSON('selectAddr') || {}
+    this.selectAddr = selectAddr
+    this.address = selectAddr.address || ''
+    console.log('sadasd', this.selectAddr)
   },
   onConfirm () {
     router.push ({

@@ -31,7 +31,7 @@
           <!-- </stack> -->
           <div class="bottom">
             <text class="coupon-type">{{$item.coupon_name}}</text>
-            <text class="btn" @click="routePage($item.coupon_id)">去领取</text>
+            <text class="btn {{$item.status === '0' ? 'wlq' : 'lq' }}" @click="routePage($item.coupon_id)">{{$item.status === '0' ? '去领取' : '已领取'}}</text>
           </div>
         </div>
       </block>

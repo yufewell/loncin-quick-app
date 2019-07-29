@@ -1,33 +1,35 @@
 <template>
-    <div class="root">
+    <div class="list-container">
         <div for="item in couponlist" class="list">
             <stack class="stack">
-                <image src="{{item.icon || 'http://img.redocn.com/sheying/20150213/mulanweichangcaoyuanfengjing_3951976.jpg'}}"></image>
-                <input class="text" type="button" value="{{'有效期至：' + item.end_time.substring(0, 10)}}" />
+                <image class="list-img" src="{{item.icon || 'http://img.redocn.com/sheying/20150213/mulanweichangcaoyuanfengjing_3951976.jpg'}}"></image>
+                <input class="time" type="button" value="{{'有效期至：' + item.end_time.substring(0, 10)}}" />
             </stack>
-            <div class="div">
-                <text>{{item.coupon_name}}</text> 
-                <input class="btn" type="button" value="去领取" onclick="routePage(item.coupon_id)" />
+            <div class="bottom">
+                <text class="coupon-name">{{item.coupon_name}}</text> 
+                <input class="btn {{item.status === '0' ? 'wlq' : 'lq' }}" type="button" value="{{item.status === '0' ? '去领取' : '已领取'}}" onclick="routePage(item.coupon_id)" />
             </div>
         </div>
     </div>
 </template>
 <style>
-.root {
+.list-container {
     display: flex;
     flex-direction:column;
     background-color:#FAFAFA;
 } 
 
 .stack {
-    height: 300px;
+    /* height: 300px; */
     margin: auto;
-    align-items: flex-start;
+    justify-content: flex-end;
+    align-items: flex-end;
  }
 
-.text {
+.time {
     width:239px;
     height:34px;
+    margin-right: 40px;
     background-color:rgba(0,0,0,0.5);
     border-radius:10px;
     font-size:20px;
@@ -37,7 +39,7 @@
     line-height:20px;
 }
 
-.root image {
+.list-img {
     border-radius: 10px;
     width:599px;
     height:273px;
@@ -51,14 +53,15 @@
     background-color:#FFFFFF;
 }
 
-.div {
+.bottom {
     padding: 12px 38px;
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+    margin-top: 26px;
 }
 
-.root text {
+.coupon-name {
     margin: auto;
     margin-left: 0;
     margin-right: 0; 
@@ -74,12 +77,19 @@
 .btn {
     width:113px;
     height:43px;
-    background-color:rgba(142,41,39,1);
-    color: #ffffff;
     font-size:22px;
     border-radius:21px;
     font-family:PingFangSC-Regular;
     font-weight:400;
+}
+
+.lq {
+    background-color:rgba(153,153,153,1);
+    color:rgba(255,255,255,1);
+}
+.wlq {
+  background-color:rgba(142,41,39,1);
+  color:rgba(255,255,255,1);
 }
 
 </style>

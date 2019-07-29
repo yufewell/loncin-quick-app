@@ -68,7 +68,7 @@
       "Index": {
         "component": "index"
       },
-      "WorkOrder/Home": {
+      "WorkOrder/Main": {
         "component": "index"
       },
       "WorkOrder/HistoryList": {
@@ -168,7 +168,7 @@
         "titleBarText": "",
         "titleBar": false
       },
-      "WorkOrder/Home": {
+      "WorkOrder/Main": {
         "menu": false,
         "titleBarText": "",
         "titleBar": true

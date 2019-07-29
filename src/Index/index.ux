@@ -1,6 +1,6 @@
 <import name="lc-tabs" src="../components/lc-tabs/index"></import>
 <import name="lc-home" src="../Home/index"></import>
-<import name="lc-work-order" src="../WorkOrder/Home/index"></import>
+<import name="lc-work-order" src="../WorkOrder/Main/index"></import>
 <import name="lc-profile" src="../Profile/index"></import>
 
 <template>
@@ -11,7 +11,7 @@
       <div class="tab-content-section" show="{{ renderTabContent(0) }}">
         <lc-home users="{{userInfo}}"></lc-home>
       </div>  
-      <div class="tab-content-section" show="{{ renderTabContent(1) }}">
+      <div class="tab-content-section" if="{{ renderTabContent(1) }}">
         <lc-work-order users="{{userInfo}}"></lc-work-order>
       </div>
       <div class="tab-content-section" if="{{ renderTabContent(2) }}">
@@ -28,6 +28,8 @@
 <script>
 import prompt from '@system.prompt'
 import User from '../lib/user'
+import device from '@system.device'
+import storage from '../lib/storage';
 const user = new User()
 
 export default {
@@ -45,6 +47,19 @@ export default {
       this.userInfo = userInfo
     }
     console.log('index-userInfo', userInfo, this.selectAddr)
+  },
+  onReady() {
+    device.getInfo({
+      success: async (ret) => {
+        if (ret) {
+          await storage.set('deviceInfo', ret)
+        } 
+        console.log(ret.windowHeight)
+      },
+      fail: (data, code) => {
+        console.log(`getinfo handling fail, code = ${code}`)
+      }
+    })
   },
   onChange(e) {
     this.currentIndex = e.detail.index

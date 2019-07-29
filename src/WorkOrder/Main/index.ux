@@ -1,5 +1,5 @@
 <template>
-  <div class="ls-page">
+  <div class="work-page">
     <div class="header">
       <div class="back">
         <image @click="goBack" src="/Common/icon-back-black-arrow.png"></image>
@@ -7,63 +7,63 @@
       <text class="title">工单追踪</text>
       <text @click="goHistoty" class="histoty">历史记录</text>
     </div>
-    <div class="empty">
+    <div class="empty" if="{{isEmpty}}">
       <text>暂无工单记录</text>
     </div>
-    <div class="history-page">
-      <list class="listContainer" onscrollbottom="renderMoreListItem">
-        <block for="{{listData }}">
+    <div else="{{!isEmpty}}" class="work-list-page" style="height: {{ deviceInfo.windowHeight || 1300 }}">
+      <list class="listContainer1" onscrollbottom="renderMoreListItem">
+        <block for="{{listData}}">
           <!-- product -->
-          <list-item type="product1" class="list-item">
-            <div class="item-top">
-              <text class="label">工单号：</text>
-              <div class="icon-value" style="padding-top: 26px; padding-bottom: 26px;">
-                <text class="num">{{$item.property_repair_no}}</text>
+          <list-item type="product1" class="list-item1">
+            <div class="item-top1">
+              <text class="label1">工单号：</text>
+              <div class="icon-value1" style="padding-top: 26px; padding-bottom: 26px;">
+                <text class="num1">{{$item.property_repair_no}}</text>
               </div>
             </div>
-            <div class="item-top item-common">
-              <text class="label">维修人员：</text>
-              <text class="value">{{$item.service_engineer_name}}</text>
+            <div class="item-top1 item-common1">
+              <text class="label1">维修人员：</text>
+              <text class="value1">{{$item.service_engineer_name}}</text>
             </div>
-            <div class="item-top item-common">
-              <text class="label">联系电话：</text>
-              <text class="value">{{$item.service_engineer_phone}}</text>
+            <div class="item-top1 item-common1">
+              <text class="label1">联系电话：</text>
+              <text class="value1">{{$item.service_engineer_phone}}</text>
             </div>
           </list-item>
           <!-- banner -->
-          <list-item type="banner1" if="$item.isExpand" class="item-progress">
-            <div class="progress-top">
+          <list-item type="banner1" if="$item.isExpand" class="item-progress1">
+            <div class="progress-top1">
               <image style="width: 30px;height: 30px;" src="/Common/work/zhongdian@2x.png"></image>
               <text style="font-size:26px;color:rgba(142,41,39,1);padding-left: 20px;">维修进度</text>
             </div>
             <stack>
-              <div class="out"></div>
-              <div class="inner">
+              <div class="out1"></div>
+              <div class="inner1">
                 <block for="(index, row) in $item.repair_process">
-                  <div class="cu-coldCss" style="margin-bottom:{{index !== $item.repair_process.length -1 ? 49 : 25}}px;">
-                    <div class="icon-labl">
-                      <text class="dot"></text>
-                      <text class="msg">{{row.show_msg}}</text>
+                  <div class="cu-coldCss1" style="margin-bottom:{{index !== $item.repair_process.length -1 ? 49 : 25}}px;">
+                    <div class="icon-labl1">
+                      <text class="dot1"></text>
+                      <text class="msg1">{{row.show_msg}}</text>
                     </div>
-                    <text class="time" >{{row.show_time}}</text>
+                    <text class="time1" >{{row.show_time}}</text>
                   </div>
                 </block>
-                <text class="dot-end"></text>
+                <text class="dot-end1"></text>
               </div>
 
             </stack>
           </list-item>
           <!-- expand -->
-          <list-item type="expand1" class="expand-list">
-            <div class="expand" @click="onExpand($item)">
-              <text class="expand-title">{{$item.isExpand ? '收起' : '点击查看详情'}}</text>
-              <image class="expand-icon" src="/Common/work/{{$item.isExpand ? 'icon-down' : 'xiangshang'}}@2x.png"></image>
+          <list-item type="expand1" class="expand-list1">
+            <div class="expand1" @click="onExpand($item)">
+              <text class="expand-title1">{{$item.isExpand ? '收起' : '点击查看详情'}}</text>
+              <image class="expand-icon1" src="/Common/work/{{$item.isExpand ? 'icon-down' : 'xiangshang'}}@2x.png"></image>
             </div>
           </list-item>
           <!-- black -->
-          <list-item type="black1" class="item-black"></list-item>
+          <list-item type="black1" class="item-black1"></list-item>
         </block>
-        <list-item type="loadStatus1" class="load-status">
+        <list-item type="loadStatus1" class="load-status1">
           <progress type="circular" show="{{hasMoreData}}"></progress>
           <text show="{{hasMoreData}}"></text>
         </list-item>
@@ -79,8 +79,6 @@
 <script>
 import prompt from '@system.prompt'
 import router from '@system.router'
-import shortcut from '@system.shortcut'
-import fetch from '@system.fetch'
 import request from '../../lib/request'
 import storage from '../../lib/storage'
 export default {
@@ -102,10 +100,11 @@ export default {
       listData: [],                 // 列表数据
       isMoreData: false,            // 是否还有更多数据
       isExpand: false,
-      isEmpty: true,
+      isEmpty: false,
+      deviceInfo: {},
     }
   },
-  onInit() {
+  async onInit() {
     // 获取数据并渲染列表
     this.getList()
     // setTimeout(() => {
@@ -113,6 +112,8 @@ export default {
     //     this.isEmpty = false
     //   }
     // }, 2000)
+    this.deviceInfo = await storage.getJSON('deviceInfo') || {}
+    console.log(this.deviceInfo)
   },
   goHistoty () {
     router.push ({
@@ -134,7 +135,6 @@ export default {
   // 获取列表数据
   getList(doRender = false) {
     request.get(`propertyrepair/history?page=${this.pageIndex}&pagesize=${this.pageSize}&status=${this.status}`).then(({ data }) => {
-      console.log('workorder', data)
       const newList = data.property_repair_list || []
       const list = this.changeListIsExpand(false, newList) || []
       console.log(this.changeListIsExpand(false, list))
@@ -142,6 +142,8 @@ export default {
         if (doRender) {
           this.hasMoreData = false
           return
+        } else {
+          this.isEmpty = true
         }
       }
       if (!Array.isArray(list) || !list.length) {
@@ -150,6 +152,8 @@ export default {
             this.isMoreData = true
           }, 3000)
           return
+        } else {
+          this.isEmpty = true
         }
       }
       if (doRender) {

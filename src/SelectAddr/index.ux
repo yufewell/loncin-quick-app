@@ -90,20 +90,14 @@ export default {
     border-radius:34px;
     border:2px solid rgba(142,41,39,1);
     margin-bottom: 15px;
-    padding-left: 20px;
   }
   .option-css {
     font-size:26px;
     height: 60px;
-    /* padding: 10px 0px; */
+    padding: 10px 0px;
     font-weight:400;
     color:rgba(51,51,51,1);
     line-height:26px;
-  }
-  .option-plots {
-    /* border:2px solid rgba(142,41,39,1); */
-    /* border-bottom-width: 1px;
-    border-bottom-color: #7fffd4; */
   }
   .title {
     width: 80%;
@@ -115,7 +109,6 @@ export default {
     line-height:29px;
     text-align: left;
   }
-
   .btn {
     width: 80%;
     margin-top: 210px;

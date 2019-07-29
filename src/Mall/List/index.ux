@@ -1,131 +1,151 @@
-<import name="listMenu" src="../module/listMenu.ux"></import>
 <import name="lc-input" src="../../components/lc-input/index"></import>
 
 <template>
-   <div class="root">
-        <div class="header">
-            <image @click="goBack" class="back" src="/Common/icon-back-black-arrow.png"></image>
-            <div class="search" @click="toSearch">
-                <lc-input containercss="height: 39px;padding-left: 15px" searchcss="width: 20px; height: 20px;" showsearch="{{true}}" disabled="{{true}}" placeholder=''></lc-input>
-            </div>
-        </div>
-        <div class="type">
-            <div>
-                <image class="image" src="../../Common/shengxian-2@2x.png" onclick="selectTag('1')" ></image>
-                <text>生鲜水果</text>
-            </div>
-            <div>
-                <image class="image1" src="../../Common/jiaju-copy-copy@2x.png" onclick="selectTag('2')"></image>
-                <text>家具好物</text>
-            </div>
-            <div>
-                <image class="image1" src="../../Common/riyongpin@2x.png" onclick="selectTag('3')"></image>
-                <text>家居日用</text>
-            </div>
-            <div>
-                <image class="image1" src="../../Common/present-fill@2x.png" onclick="selectTag('4')"></image>
-                <text>精选礼品</text>
-            </div>
-        </div> 
-        <listMenu couponlist="{{coupon_list}}"></listMenu>
-   </div>
+  <div class="list-page">
+    <div class="header">
+      <image @click="goBack" class="back" src="/Common/icon-back-black-arrow.png"></image>
+      <div class="search" @click="toSearch">
+        <lc-input containercss="height: 39px;padding-left: 15px" searchcss="width: 20px; height: 20px;" showsearch="{{true}}" disabled="{{true}}" placeholder=''></lc-input>
+      </div>
+    </div>
+    <div class="type">
+      <div>
+        <image class="image" src="../../Common/shengxian-2@2x.png" onclick="selectTag('1')" ></image>
+        <text>生鲜水果</text>
+      </div>
+      <div>
+        <image class="image1" src="../../Common/jiaju-copy-copy@2x.png" onclick="selectTag('2')"></image>
+        <text>家具好物</text>
+      </div>
+      <div>
+        <image class="image1" src="../../Common/riyongpin@2x.png" onclick="selectTag('3')"></image>
+        <text>家居日用</text>
+      </div>
+      <div>
+        <image class="image1" src="../../Common/present-fill@2x.png" onclick="selectTag('4')"></image>
+        <text>精选礼品</text>
+      </div>
+    </div>
+    <list class="list-container" onscrollbottom="renderMoreListItem">
+      <block for="item in coupon_list">
+        <!-- product -->
+        <list-item type="product" class="list">
+          <stack class="stack">
+            <image class="list-img" src="{{item.icon || 'http://img.redocn.com/sheying/20150213/mulanweichangcaoyuanfengjing_3951976.jpg'}}"></image>
+            <input class="time" type="button" value="{{'有效期至：' + item.end_time.substring(0, 10)}}" />
+          </stack>
+          <div class="bottom">
+            <text class="coupon-name">{{item.coupon_name}}</text> 
+            <input class="btn {{item.status === '0' ? 'wlq' : 'lq' }}" type="button" value="{{item.status === '0' ? '去领取' : '已领取'}}" onclick="routePage(item.coupon_id)" />
+          </div>
+        </list-item>
+      </block>
+      <list-item type="loadStatus" class="load-status">
+        <progress type="circular" show="{{hasMoreData}}"></progress>
+        <text show="{{hasMoreData}}"></text>
+        <text show="{{isMoreData}}">没有更多了</text>
+      </list-item>
+    </list>
+  </div>
 </template>
 <style lang="less">
-    .root {
-        width: 100%;
-        flex-direction: column;
-        background-color:rgba(250,250,250,1);
-    }
-    .header {
-        padding: 15px 20px;
-        align-items: center;
-    }
-    .back {
-        width:29px;
-        height:29px;
-        margin-right: 10px;
-    }
-    .search {
-        flex: 1;
-        height:43px;
-        background-color:rgba(236,236,236,1);
-        border-radius:26px;
-        margin: 0px 10px;
-    }
-    .type {
-        width: 100%;
-        justify-content: space-between;
-        background-color: #FAFAFA;
-        padding: 20px 51px;
-    }
-
-    .image {
-        margin: auto;
-        width: 65px;
-        height: 65px;
-    }
-
-    .image1 {
-        margin: auto;
-        width: 61px;
-        height: 61px;
-    }
-
-    .type>div {
-        flex-direction: column;
-    }
-
-    .type>div text {
-        text-align: center;
-        height:34px;
-        font-size:24px;
-        font-family:PingFangSC-Regular;
-        font-weight:400;
-        color:rgba(131,33,38,1);
-        line-height:34px;
-    }
+    @import './index.less';
 </style>
 <script>
 import request from '../../lib/request'
 import fetch from '@system.fetch'
 import router from '@system.router'
 export default {
-    protected: {
-        coupon_type: '1',
-        page: '1',
-        pagesize: '5',
-        coupon_list: [],
-        total: 0
-    },
-    async onInit() {
-        try {
-            await this.getLitsDate() 
-        } catch(e) {
-            console.error(e)
-        }
-    },
-    selectTag(id) {
-        if (id !== this.coupon_type) {
-           this.coupon_type = id
-           this.getLitsDate()
-        }
-    },
-    getLitsDate() {
-        request.get(`coupon/list?coupon_type=${this.coupon_type}&page=${this.page}&pagesize=${this.pagesize}`).then((res) => {
-            if ('success' === res.msg) {
-                // console.log(res.data,this.coupon_type)
-                this.coupon_list = res.data && res.data.coupon_list
-                this.total = +(res.data && res.data.pager && res.data.pager.total || 0)
-            }
-        }) 
-    },
-    toSearch() {
-        router.push ({
-            uri: '/Index'
-        })
-    },
-    goBack() {
-        router.back()
+  protected: {
+    coupon_type: '1',
+    pageIndex: 1,
+    pageSize: 5,
+    coupon_list: [],
+    total: 0,
+    hasMoreData: true,           // 上拉加载数据状态
+    isLoadingData: false,         // 是否正在fetch请求数据
+    isMoreData: false,            // 是否还有更多数据
+  },
+  async onInit() {
+    try {
+      await this.getList() 
+    } catch(e) {
+      console.error(e)
     }
+  },
+  selectTag(id) {
+    if (id !== this.coupon_type) {
+      this.pageIndex = 1
+      this.coupon_type = id
+      this.getList()
+    }
+  },
+  // 滑动到底部时加载更多
+  renderMoreListItem () {
+    if (this.coupon_list.length >= this.total) {
+      this.isMoreData = true
+      return
+    }
+    if (!this.isLoadingData) {
+      this.hasMoreData = true
+      this.isMoreData = false
+    }
+    this.pageIndex++
+    this.getList(true)
+    setTimeout(() => {
+      this.hasMoreData = false
+    }, 3000)
+  },
+  // 获取列表数据
+  getList(doRender = false) {
+    request.get(`coupon/list?coupon_type=${this.coupon_type}&page=${this.pageIndex}&pagesize=${this.pageSize}`).then(({ data }) => {
+      const list = data.coupon_list || []
+      console.log('coupon/list', data)
+      if (!data) {
+        if (doRender) {
+          this.hasMoreData = false
+          return
+        }
+      }
+      if (!Array.isArray(list) || !list.length) {
+        if (doRender) {
+          setTimeout(() => {
+            this.isMoreData = true
+          }, 3000)
+          return
+        }
+      }
+      this.total = +(data && data.pager && data.pager.total || 0)
+      if (doRender) {
+        this.coupon_list = this.coupon_list.concat(list)
+      } else {
+        this.hasMoreData = false
+        this.coupon_list = list 
+      }
+    })
+  },
+  getLitsDate() {
+    request.get(`coupon/list?coupon_type=${this.coupon_type}&page=${this.pageIndex}&pagesize=${this.pageSize}`).then((res) => {
+      if ('success' === res.msg) {
+        // console.log(res.data,this.coupon_type)
+        this.coupon_list = res.data && res.data.coupon_list
+        this.total = +(res.data && res.data.pager && res.data.pager.total || 0)
+      }
+    }) 
+  },
+  toSearch() {
+    router.push ({
+      uri: '/Index'
+    })
+  },
+  goBack() {
+    router.back()
+  },
+  routePage(id) {
+    router.push({
+      uri: '/Mall/CouponsShow',
+      params: { couponId: id } 
+    })
+  },
 }
 </script>
