@@ -37,13 +37,14 @@ export default {
     pageName: 'Home',       // 当前页面
     currentIndex: 0,        // tab索引
     userInfo: {},           // 全局登陆用户信息
+    selectAddr: {},         // 
   },
   async onInit() {
     const userInfo = await user.getLocal()
     if (userInfo) {
       this.userInfo = userInfo
     }
-    console.log('index-userInfo', userInfo)
+    console.log('index-userInfo', userInfo, this.selectAddr)
   },
   onChange(e) {
     this.currentIndex = e.detail.index

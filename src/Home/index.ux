@@ -5,7 +5,7 @@
   <div class="lc-page" style="">
     <div class="header">
       <image src="/Common/icon-weizhi@2x.png"></image>
-      <text class="addr">{{addr}}</text>
+      <text class="addr">{{communityName}}</text>
       <div class="search" @click="toSearch">
         <lc-input containercss="height: 39px;padding-left: 15px" searchcss="width: 20px; height: 20px;" showsearch="{{true}}" disabled="{{true}}" placeholder=''></lc-input>
       </div>
@@ -47,6 +47,7 @@
 import prompt from '@system.prompt'
 import router from '@system.router'
 import request from '../lib/request'
+import storage from '../lib/storage'
 
 export default {
   props: {
@@ -70,12 +71,17 @@ export default {
         { url: '/Common/icon-baoxiu@2x.png', title: '物业保修', routeName: '' },
         { url: '/Common/icon-goods@2x.png', title: '隆鑫商城', routeName: '/Mall/List' }
       ],
-      coupons: []
-
+      coupons: [],
+      selectAddr: {},
+      communityName: ''
     }
   },
-  onInit() {
-    this.initCoupons()
+  async onInit() {
+    await this.initCoupons()
+    const selectAddr = await storage.getJSON('selectAddr') || {}
+    this.selectAddr = selectAddr
+    this.communityName = selectAddr.community_name || ''
+    console.log('sadasd', this.selectAddr)
   },
   async initCoupons() {
     await request.get('coupon/list', { coupon_type: '', community_id: '1', page: 1, pagesize: 3 }).then((res) => {
