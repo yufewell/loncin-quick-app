@@ -12,7 +12,7 @@
         <lc-home users="{{userInfo}}"></lc-home>
       </div>  
       <div class="tab-content-section" show="{{ renderTabContent(1) }}">
-        <lc-work-order title="我的问诊"></lc-work-order>
+        <lc-work-order users="{{userInfo}}"></lc-work-order>
       </div>
       <div class="tab-content-section" if="{{ renderTabContent(2) }}">
         <lc-profile users="{{userInfo}}"></lc-profile>

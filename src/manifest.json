@@ -71,6 +71,9 @@
       "WorkOrder": {
         "component": "index"
       },
+      "WorkOrder/HistoryList": {
+        "component": "index"
+      },
       "Profile": {
         "component": "index"
       },
@@ -215,6 +218,10 @@
       },
       "WuYe/Pay": {
         "titleBarText": "物业缴费",
+        "menu": false
+      },
+      "WorkOrder/HistoryList": {
+        "titleBarText": "历史记录",
         "menu": false
       }
     }

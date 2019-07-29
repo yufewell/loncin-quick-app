@@ -48,8 +48,8 @@ export default {
     return {
       tabs: [
         { name: 'Home', default: 'icon-home.png', select: 'icon-home-select.png', title: '首页' },
-        { name: 'WorkOrder', default: 'icon-gongdan.png', select: 'icon-gongdan-select.png', title: '我的问诊' },
-        { name: 'Profile', default: 'icon-person-block.png', select: 'icon-person-block-select.png', title: '设置' },
+        { name: 'WorkOrder', default: 'icon-gongdan.png', select: 'icon-gongdan-select.png', title: '工单约' },
+        { name: 'Profile', default: 'icon-person-block.png', select: 'icon-person-block-select.png', title: '我的' },
       ],
       currentSelected: 'Home',
       currentIndex: 0

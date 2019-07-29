@@ -23,13 +23,18 @@
       <text @click="toMore" style="font-size:22px; color:rgba(52,103,237,1);">更多></text>
     </div>
     <div class="coupon-list">
-      <div for="{{coupons}}" class="coupon-item">
-        <image class="coupon-img" src="{{$item.icon || '/Common/icon-home-cpupon.png'}}" alt=""></image>
-        <div class="bottom">
-          <text class="coupon-type">{{$item.coupon_name}}</text>
-          <text class="btn" @click="routePage($item.coupon_id)">去领取</text>
+      <block for="{{coupons}}">
+        <div class="coupon-item">
+          <!-- <stack class="stack"> -->
+            <!-- <image src="{{item.icon || 'http://img.redocn.com/sheying/20150213/mulanweichangcaoyuanfengjing_3951976.jpg'}}"></image> -->
+          <image class="coupon-img" src="{{$item.icon || '/Common/icon-home-cpupon.png'}}" alt=""></image>
+          <!-- </stack> -->
+          <div class="bottom">
+            <text class="coupon-type">{{$item.coupon_name}}</text>
+            <text class="btn" @click="routePage($item.coupon_id)">去领取</text>
+          </div>
         </div>
-      </div>
+      </block>
     </div>
   </div>
 </template>
@@ -73,7 +78,7 @@ export default {
     this.initCoupons()
   },
   async initCoupons() {
-    await request.get('coupon/list', { coupon_type: '', page: 1, pagesize: 3 }).then((res) => {
+    await request.get('coupon/list', { coupon_type: '', community_id: '1', page: 1, pagesize: 3 }).then((res) => {
       console.log('coupon/list', res)
       if (res.code === 0) {
         const _data = res.data.coupon_list || []
