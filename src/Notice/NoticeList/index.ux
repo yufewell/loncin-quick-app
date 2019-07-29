@@ -9,39 +9,37 @@
       </tab-bar>
       <tab-content class="tab-content">
         <div class="tab-content-section" >
-          <refresh offset="90px" refreshing="{{freshing}}" @refresh="onRefresh">
-            <!-- 列表实现，监听列表的scrollbottom事件，列表滚动到底部时加载更多数据 -->
-            <list class="listContainer" onscrollbottom="renderMoreListItem">
-              <block for="{{ (index, item) in listData }}">
-                <list-item type="product" class="list-item" onclick="routeDetail(item.notify_id)">
-                  <div class="text-wrap" style="margin-top: {{ index === 0 && freshing ? '100px' : '0' }}">
-                    <div class="left-wrap">
-                      <div class="titleCss">
-                        <text class="title">社区公告社区公告社区公告社区公告社区公告</text>
-                      </div>
-                      <!-- <div class="titleCss">
-                        <text class="title">{{item.notify_name && item.notify_name !== '' ? item.notify_name : '无'}}</text>
-                      </div> -->
-                      <div class="cpCss">
-                        <text class="time">{{item.add_time}}</text>
-                      </div>
+          <!-- 列表实现，监听列表的scrollbottom事件，列表滚动到底部时加载更多数据 -->
+          <list class="listContainer" onscrollbottom="renderMoreListItem">
+            <block for="{{ (index, item) in listData }}">
+              <list-item type="product" class="list-item" onclick="routeDetail(item.notify_id)">
+                <div class="text-wrap" style="margin-top: '0px'; }}">
+                  <div class="left-wrap">
+                    <div class="titleCss">
+                      <text class="title">{{item.notify_name}}</text>
                     </div>
-                    <div class="right-wrap">
-                      <div class="imgContainer">
-                        <image if="{{item.pics}}" style="width: 100%;" src="/Common/icon-notice-right@2x.png"></image>
-                        <image else style="width: 100%;" src="{{item.pics}}" alt=""></image>
-                      </div>
+                    <!-- <div class="titleCss">
+                      <text class="title">{{item.notify_name && item.notify_name !== '' ? item.notify_name : '无'}}</text>
+                    </div> -->
+                    <div class="cpCss">
+                      <text class="time">{{item.add_time}}</text>
                     </div>
                   </div>
-                </list-item>
-              </block>
-              <list-item type="loadStatus" class="load-status">
-                <progress type="circular" show="{{hasMoreData}}"></progress>
-                <text show="{{hasMoreData}}">正在加载···</text>
-                <!-- <text show="{{isMoreData}}">都看完了，试试别的分类吧~</text> -->
+                  <div class="right-wrap">
+                    <div class="imgContainer">
+                      <image if="{{!item.pics}}" style="width: 100%;" src="/Common/icon-notice-right@2x.png"></image>
+                      <image else style="width: 100%;" src="{{item.pics}}" alt=""></image>
+                    </div>
+                  </div>
+                </div>
               </list-item>
-            </list>
-          </refresh>
+            </block>
+            <list-item type="loadStatus" class="load-status">
+              <progress type="circular" show="{{hasMoreData}}"></progress>
+              <text show="{{hasMoreData}}">正在加载···</text>
+              <text show="{{isMoreData}}">没有更多了~</text>
+            </list-item>
+          </list>
         </div>
       </tab-content>
     </tabs>
@@ -72,54 +70,12 @@ export default {
     isLoadingData: false,         // 是否正在fetch请求数据
     listData: [],                 // 列表数据
     isMoreData: false,            // 是否还有更多数据
-    isCreateIcon: false,          // 是否创建桌面      
+    isCreateIcon: false,          // 是否创建桌面
+    total: 0,      
   },
   onInit(){
     // 加载第一个tab内容
-    this.changeTabIndex(0)
-    if (this.currentIndex === 0) {
-      this.freshing = true;
-      setTimeout(() => {
-        this.freshing = false
-      }, 50)
-    } else {
-      this.getList()
-    }
-  },
-  // 创建桌面图标
-  createShortIcon() {
-    const _this = this
-    prompt.showContextMenu({
-      itemList: [ '创建桌面', '取消' ],
-      itemColor: '#252525',
-      success: function (data) {
-        if (data && data.index === 0) {
-          if (_this.isCreateIcon) {
-            prompt.showToast({ message: '已创建桌面图标'})
-            return
-          }
-          shortcut.install({
-            async success () {
-              const create = await storage.get('create')
-              if (create === '1') {
-                prompt.showToast({ message: '已创建桌面图标'})
-                _this.isCreateIcon = true
-              } else {
-                await storage.set('create', '1')
-                _this.isCreateIcon = true
-                prompt.showToast({ message: '成功创建桌面图标'})
-              }
-            }
-          })
-        }
-      },
-      cancel: function (data) {
-        console.log('handling cancel', JSON.stringify(data))
-      },
-      fail: function (data, code) {
-        console.log(`handling fail, code = ${code}`)
-      }
-    })
+    this.getList()
   },
   changeTabIndex(index) {
     const item = Object.assign({}, this.tabHeadList[index])
@@ -153,6 +109,10 @@ export default {
   
   // 滑动到底部时加载更多
   renderMoreListItem () {
+    if (this.listData.length >= this.total) {
+      this.isMoreData = true
+      return
+    }
     if (!this.isLoadingData) {
       this.hasMoreData = true
       this.isMoreData = false
@@ -193,14 +153,11 @@ export default {
           return
         }
       }
+      this.total = +(data && data.pager && data.pager.total || 0)
       if (doRender) {
         this.listData = this.listData.concat(notify_list)
       } else {
-        let list = []
-        for (let i = 0; i < 10 ; i++) {
-          list = [...list,...notify_list]
-        }
-        this.listData = list 
+        this.listData = notify_list 
       }
     })
   },

@@ -33,6 +33,7 @@
 <script>
 import prompt from '@system.prompt'
 import router from '@system.router'
+import shortcut from '@system.shortcut'
 import User from '../lib/user'
 import storage from '../lib/storage'
 const user = new User()
@@ -63,7 +64,14 @@ export default {
     const selectAddr = await storage.getJSON('selectAddr') || {}
     this.selectAddr = selectAddr
     this.address = selectAddr.address || ''
-    console.log('sadasd', this.selectAddr)
+  },
+  async onReady() {
+    const create = await storage.get('create')
+    if (!create) {
+      setTimeout(() => {
+        this.createShortIcon()
+      }, 3000)
+    }
   },
   changeAddr () {
     router.push ({
@@ -80,6 +88,41 @@ export default {
   },
   onLoginOut() {
     user.logout()
-  }
+  },
+  // 创建桌面图标
+  createShortIcon() {
+    const _this = this
+    prompt.showContextMenu({
+      itemList: [ '创建桌面快捷图标', '不了，谢谢！' ],
+      itemColor: '#252525',
+      success: function (data) {
+        if (data && data.index === 0) {
+          if (_this.isCreateIcon) {
+            prompt.showToast({ message: '已创建桌面图标'})
+            return
+          }
+          shortcut.install({
+            async success () {
+              const create = await storage.get('create')
+              if (create === '1') {
+                prompt.showToast({ message: '已创建桌面图标'})
+                _this.isCreateIcon = true
+              } else {
+                await storage.set('create', '1')
+                _this.isCreateIcon = true
+                prompt.showToast({ message: '成功创建桌面图标'})
+              }
+            }
+          })
+        }
+      },
+      cancel: function (data) {
+        console.log('handling cancel', JSON.stringify(data))
+      },
+      fail: function (data, code) {
+        console.log(`handling fail, code = ${code}`)
+      }
+    })
+  },
 }
 </script>
