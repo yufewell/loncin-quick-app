@@ -15,13 +15,20 @@
       .item-top {
         align-items: center;
         justify-content: space-between;
+        border-bottom: 2px solid rgba(229,229,229,1);
+        padding: 26px 0;
         > text {
           font-size:27px;
           font-weight:400;
           line-height:27px;
         }
         .label {
-          color:rgba(102,102,102,1);
+          height:31px;
+          font-size:22px;
+          font-family:PingFangSC-Regular;
+          font-weight:400;
+          color:rgba(233,96,5,1);
+          line-height:31px;
         }
         .value {
           color:rgba(51,51,51,1);
@@ -29,16 +36,28 @@
         .icon-value {
           align-items: center;
           > image {
-            width: 90px;
-            height: 80px;
+            width:23px;
+            height:27px;
           }
           .num {
-            color:rgba(25,118,239,1);
+            padding-left: 10px;
+            height:27px;
+            font-size:27px;
+            font-family:PingFangSC-Medium;
+            font-weight:500;
+            color:rgba(51,51,51,1);
+            line-height:27px;
           }
         }
       }
       .item-common {
         padding: 25px 0px;
+        .content {
+          font-size:27px;
+          font-weight:400;
+          color:rgba(102,102,102,1);
+          line-height:27px;
+        }
       }
     }
     .item-black {
@@ -46,9 +65,9 @@
       background-color:rgba(251,251,251,1);
     }
     .item-progress {
-      border-top-width: 1px;
-      border-top-color: @border-color;
-      // margin-top: 20px;
+      // border-top-width: 1px;
+      // border-top-color: @border-color;
+      // // margin-top: 20px;
       flex-direction: column;
       margin: 0 20px;
       background-color: #ffffff;
@@ -56,50 +75,39 @@
         align-items: center;
         padding-top: 20px;
       }
-      .out {
-        border-left-color: rgba(229,229,229,1);
-        border-left-width: 2px;
-        margin-left: 15px;
-        margin-top: -5px;
+      .title-img {
+        padding: 29px 0px;
+        font-size:27px;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+        color:rgba(51,51,51,1);
+        line-height:27px;
+      }
+      .content {
+        flex-wrap: wrap;
+        // justify-content: space-around;
+        align-items: center;
+      }
+      .image-container {
+        margin-bottom: 10px;
+        background-color: #ffffff;
+        margin: 10px;
+      }
+      .xui-col {
+        flex-grow: 4;
+        width:120px;
+        height:120px;
       }
       .inner {
-        padding-top: 49px;
-        flex-direction: column;
+        // flex-direction: column;
         .cu-coldCss {
-          flex-direction: column;
-          // margin-bottom: 49px;
-          .icon-labl {
-            align-items: center;
-            .dot {
-              width:16px;
-              height:16px;
-              border-radius: 8px;
-              background-color:rgba(151,151,151,1);
-              margin-left: 8px;
-            }
-            .msg {
-              margin-left: 28px;
-              font-size:26px;
-              font-weight:400;
-              color:rgba(51,51,51,1);
-              line-height:26px;
-            }
+          flex-direction: row;
+          justify-content: space-around;
+          // align-items: flex-start;
+          .item-image {
+            width: 150px;
+            height: 123px;
           }
-          .time {
-            margin-left: 50px;
-            margin-top: 17px;
-            font-size:22px;
-            font-weight:400;
-            color:rgba(102,102,102,1);
-            line-height:22px;
-          }
-        }
-        .dot-end {
-          width: 16px;
-          height: 16px;
-          border-radius: 8px;
-          margin-left: 8px;
-          background-color: #1976EF;
         }
       }
     }

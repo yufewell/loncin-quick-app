@@ -9,21 +9,21 @@
               <image src="/Common/dingdan2-copy@2x.png"></image>
               <text class="num">投诉内容</text>
             </div>
-            <text class="label">{{$item.status === "1" ? 已受理 : "未受理"}}</text>
+            <text class="label" style="color: {{$item.status === '0' ? '#8E2927' : '#E96005'}};">{{$item.status === "1" ? "已受理" : "未受理"}}</text>
           </div>
-          <div class="item-top item-common">
-            <text class="value">{{$item.content}}</text>
+          <div class="item-common">
+            <text class="content">{{$item.content}}</text>
           </div>
         </list-item>
         <!-- black -->
-        <list-item type="black" class="item-black"></list-item>
+        <list-item type="black1" class="item-black"></list-item>
         <!-- banner -->
         <list-item type="banner" if="$item.isExpand" class="item-progress">
-          <text>图片</text>
-          <div class="inner">
-            <block for="(index, row) in $item.pics">
-              <div class="cu-coldCss" style="flex-warp: warp;">
-                <image style="flex: 1;height: 123px;" src=""></image>
+          <text class="title-img">图片</text>
+          <div class="content">
+            <block for="value in $item.picArr">
+              <div class="image-container">
+                <image class="xui-col" style="object-fit: contain; background-color: red;" src="{{value}}"></image>
               </div>
             </block>
           </div>
@@ -36,7 +36,7 @@
           </div>
         </list-item>
         <!-- black -->
-        <list-item type="black" class="item-black"></list-item>
+        <list-item type="black2" class="item-black"></list-item>
       </block>
       <list-item type="loadStatus" class="load-status">
         <progress type="circular" show="{{hasMoreData}}"></progress>
@@ -86,10 +86,9 @@ export default {
   // 获取列表数据
   getList(doRender = false) {
     request.get(`complain/history?page=${this.pageIndex}&pagesize=${this.pageSize}`).then(({ data }) => {
-      console.log('complain/history', data)
       const newList = data.complain_list || []
-      const list = this.changeListIsExpand(false, newList) || []
-      console.log(this.changeListIsExpand(false, list))
+      const list = this.changeListIsExpand(true, newList) || []
+      console.log(list, '111')
       if (!data) {
         if (doRender) {
           this.hasMoreData = false
@@ -113,11 +112,13 @@ export default {
     })
   },
   changeListIsExpand(isExpand, list) {
+    const _self = this
     if (Array.isArray(list) && !!list.length) {
       return list.map(item => {
         return {
           ...item,
           isExpand: isExpand,
+          picArr: _self.getPicArr(item.pics)
         }
       })
     }
@@ -136,6 +137,13 @@ export default {
         return item
       }
     })
+  },
+  getPicArr(pics) {
+    if (!pics) {
+      return []
+    }
+    const picArr = pics.split('@#@#@') || []
+    return picArr
   }
 }
 </script>

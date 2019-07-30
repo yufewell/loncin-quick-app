@@ -15,7 +15,16 @@
     </div>
     <div class="add" >
       <text>添加图片</text>
-      <text>暂无</text>
+      <div class="add-css" @click="uploadFile">
+        <image class="add-icon" src="/Common/tianjia@2x.png"></image>
+      </div>
+      <div class="content">
+        <block for="value in fileList">
+          <div class="image-container">
+            <image class="xui-col" style="object-fit: contain; background-color: red;" src="{{value}}"></image>
+          </div>
+        </block>
+      </div>
     </div>
     <div class="fixed-container">
       <input class="btn" type="button" value="立即提交" onclick="onConfirm" />
@@ -30,12 +39,15 @@
 <script>
 import prompt from '@system.prompt'
 import router from '@system.router'
-import request from '../../lib/request'
+import requestFetch from '../../lib/request'
+import request from '@system.request'
 import storage from '../../lib/storage'
 export default {
   data() {
     return {
       deviceInfo: {},
+      fileList: [],
+      fileUploadData: ''
     }
   },
   onInit() {
@@ -49,7 +61,9 @@ export default {
   goBack() {
     router.back()
   },
-  onConfirm() {
+  onConfirm() { // post
+    // complain/create
+    // content  pics address_id
     this.showDialog()
   },
 
@@ -81,5 +95,35 @@ export default {
       }
     })
   },
+
+  // 上传文件接口 file/upload
+  uploadFile () {
+    const self = this
+    request.upload({
+      url: 'https://www.quickapp.cn/',
+      files: [
+        {
+          uri: self.fileUploadData,
+          name: 'component_test.pdf'
+        }
+      ],
+      data: [
+        {
+          name: 'param1',
+          value: 'value1'
+        }
+      ],
+      success: function (ret) {
+        self.fileUploadData = ret.data
+      },
+      fail: function (msg, code) {
+        self.fileUploadData = `${code}: ${msg}`
+        console.info(`### request.upload ### ${code}: ${msg}`)
+        prompt.showToast({
+          message: `${code}: ${msg}`
+        })
+      }
+    })
+  }
 }
 </script>

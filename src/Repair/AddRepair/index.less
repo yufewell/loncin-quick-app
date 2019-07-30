@@ -7,6 +7,21 @@
   .top {
     margin-top: 70px;
     margin-bottom: 20px;
+    padding: 26px 20px;
+    background-color: #ffffff;
+    .name {
+      height:27px;
+      font-size:27px;
+      font-weight:400;
+      color:rgba(102,102,102,1);
+      line-height:27px;
+    }
+    .addr {
+      color:rgba(25,118,239,1);
+      padding-left: 10px;
+    }
+  }
+  .container {
     padding: 15px 20px;
     background-color: #ffffff;
     flex-direction: column;
@@ -61,13 +76,37 @@
     font-size: 30px;
   }
   .add {
+    flex: 1;
     padding: 0 20px;
     // background-color:rgba(251,251,251,1);
     background-color: #ffffff;
     flex-direction: column;
     > text {
-      padding: 20px 0px;
+      padding: 20px 0px 14px 0px;
     }
+    .add-css {
+      padding: 20px 0px;
+      .add-icon {
+        width:85px;
+        height:85px;
+      }
+    }
+  }
+  .content {
+    padding-top: 20px;
+    flex-wrap: wrap;
+    // justify-content: space-around;
+    align-items: center;
+  }
+  .image-container {
+    margin-bottom: 10px;
+    background-color: #ffffff;
+    margin: 10px;
+  }
+  .xui-col {
+    flex-grow: 4;
+    // width:164px;
+    height:123px;
   }
 }
 
@@ -76,13 +115,15 @@
   bottom: 130px;
   right: 20px;
   height:51px;
+  width: 137px;
   background-color:rgba(98,96,96,1);
   border-radius: 26px;
   justify-content: center;
   align-items: center;
   padding: 10px;
   > image {
-
+    width: 30px;
+    height: 30px;
   }
   .phone {
     // height:20px;

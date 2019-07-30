@@ -36,6 +36,7 @@ import router from '@system.router'
 import shortcut from '@system.shortcut'
 import User from '../lib/user'
 import storage from '../lib/storage'
+import request from '../lib/request'
 const user = new User()
 
 export default {
@@ -57,7 +58,8 @@ export default {
         { url: '/Common/profile/icon-profile-kefu@2x.png', title: '联系客服', routeName: 'goPhone' },
       ],
       selectAddr: {},
-      address: ''
+      address: '',
+      tellPhone: ''
     }
   },
   async onInit() {
@@ -65,6 +67,9 @@ export default {
     this.selectAddr = selectAddr
     this.address = selectAddr.address || ''
     console.log('address', this.address, JSON.stringify(selectAddr))
+    if (selectAddr && selectAddr.address_id) {
+      this.getPhone(selectAddr.address_id)
+    }
   },
   async onReady() {
     const create = await storage.get('create')
@@ -146,19 +151,30 @@ export default {
       success: function (ret) {
         if (ret.index === 0) {
           // launch phone app
-          router.push({
-            uri: 'tel:10086'
-          })
+          if (this.tellPhone) {
+            router.push({
+              uri: `tel:${this.tellPhone}`
+            })
+          } else {
+            prompt.showToast({
+              message: '客服电话有误，请重新确认'
+            })
+          }
+          
         }
-        // prompt.showToast({
-        //   message: '成功回调:选中按钮序号---' + ret.index
-        // })
+       
       },
       cancel: function () {
         prompt.showToast({
           message: '取消'
         })
       }
+    })
+  },
+  getPhone(address_id) {
+    request.get(`service/telephone?address_id=${address_id}`).then(({ data }) => {
+      console.log(data)
+      this.tellPhone = data && data.customer_service_telephone || '' 
     })
   },
 }

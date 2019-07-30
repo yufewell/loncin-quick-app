@@ -13,7 +13,7 @@
           <list class="listContainer" onscrollbottom="renderMoreListItem">
             <block for="{{ (index, item) in listData }}">
               <list-item type="product" class="list-item" onclick="routeDetail(item.notify_id)">
-                <div class="text-wrap" style="margin-top: '0px'; }}">
+                <div class="text-wrap" style="margin-top: 0px; }}">
                   <div class="left-wrap">
                     <div class="titleCss">
                       <text class="title">{{item.notify_name}}</text>
