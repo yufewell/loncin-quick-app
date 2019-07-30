@@ -14,7 +14,7 @@
     <div class="container">
       <text class="title">报修内容（必填）</text>
       <div style="flex-grow: 1;border: 1px solid #cccccc;">
-        <textarea class="xui-input-round" style="height: 200px;flex-grow: 1;" maxlength="400" placeholder="请输入报修内容"></textarea>
+        <textarea class="xui-input-round" @change="changeTextArea" style="height: 200px;flex-grow: 1;" maxlength="400" placeholder="请输入报修内容"></textarea>
       </div>
     </div>
     <div class="add" >
@@ -56,7 +56,8 @@ export default {
       deviceInfo: {},
       selectAddr: {},
       address: '',
-      repairPhone: ''
+      repairPhone: '',
+      content: '',
     }
   },
   async onInit() {
@@ -77,7 +78,7 @@ export default {
     router.back()
   },
   onPhone() {
-    this.showDialog()
+    this.showPhoneDialog()
   },
   getPhone(address_id) {
     requestFetch.get(`service/telephone?address_id=${address_id}`).then(({ data }) => {
@@ -85,12 +86,29 @@ export default {
       this.repairPhone = data && data.repair_service_telephone || '' 
     })
   },
-  onConfirm() { // post
-    // propertyrepair/create
-    // content pics address_id
-    this.showConfirmDialog()
+  changeTextArea(e) {
+    console.log(e.value)
+    if (e && e.value) {
+      this.content = e.value
+    }
   },
-
+  onConfirm() {
+    if (!this.selectAddr.address_id || !this.content) {
+      prompt.showToast({
+        message: `请输入正确的内容`
+      })
+    }
+    requestFetch.post('propertyrepair/create', { content: this.content, pics: '', address_id: this.selectAddr.address_id }).then((data) => {
+      console.log(data)
+      if (data.code === 0) {
+        this.showConfirmDialog()
+      }
+    }).catch(e => {
+      prompt.showToast({
+        message: `error: ${e}`
+      })
+    })
+  },
   showConfirmDialog () {
     prompt.showDialog({
       title: '物业报修',
@@ -104,9 +122,6 @@ export default {
       success: function (ret) {
         if (ret.index === 0) {
           // launch phone app
-          // router.push({
-          //   uri: 'tel:10086'
-          // })
         }
         // prompt.showToast({
         //   message: '成功回调:选中按钮序号---' + ret.index
@@ -119,7 +134,7 @@ export default {
       }
     })
   },
-  showDialog () {
+  showPhoneDialog () {
     prompt.showDialog({
       title: '报修电话',
       message: '是否拨打报修电话',
@@ -146,9 +161,6 @@ export default {
             })
           }
         }
-        // prompt.showToast({
-        //   message: '成功回调:选中按钮序号---' + ret.index
-        // })
       },
       cancel: function () {
         prompt.showToast({

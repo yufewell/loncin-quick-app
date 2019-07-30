@@ -10,7 +10,7 @@
     <div class="top">
       <text class="title">投诉、建议（必填）</text>
       <div style="border: 1px solid #cccccc;">
-        <textarea class="xui-input-round" style="height: 200px;flex-grow: 1;" maxlength="400" placeholder="请输入您要写入的内容"></textarea>
+        <textarea class="xui-input-round" @change="changeTextArea" style="height: 200px;flex-grow: 1;" maxlength="400" placeholder="请输入您要写入的内容"></textarea>
       </div>
     </div>
     <div class="add" >
@@ -47,11 +47,15 @@ export default {
     return {
       deviceInfo: {},
       fileList: [],
-      fileUploadData: ''
+      fileUploadData: '',
+      content: '',
+      selectAddr: {},
     }
   },
-  onInit() {
-    
+  async onInit() {
+    const selectAddr = await storage.getJSON('selectAddr') || {}
+    this.selectAddr = selectAddr
+    console.log('address', selectAddr)
   },
   goHistory () {
     router.push ({
@@ -61,13 +65,29 @@ export default {
   goBack() {
     router.back()
   },
-  onConfirm() { // post
-    // complain/create
-    // content  pics address_id
-    this.showDialog()
+  changeTextArea(e) {
+    if (e && e.value) {
+      this.content = e.value
+    }
   },
-
-  showDialog () {
+  onConfirm() {
+    if (!this.selectAddr.address_id || !this.content) {
+      prompt.showToast({
+        message: `请输入正确的内容`
+      })
+    }
+    requestFetch.post('complain/create', { content: this.content, pics: '', address_id: this.selectAddr.address_id }).then((data) => {
+      console.log(data)
+      if (data.code === 0) {
+        this.showConfirmDialog()
+      }
+    }).catch(e => {
+      prompt.showToast({
+        message: `error: ${e}`
+      })
+    })
+  },
+  showConfirmDialog () {
     prompt.showDialog({
       title: '投诉建议',
       message: '投诉成功！',
@@ -80,13 +100,7 @@ export default {
       success: function (ret) {
         if (ret.index === 0) {
           // launch phone app
-          // router.push({
-          //   uri: 'tel:10086'
-          // })
         }
-        // prompt.showToast({
-        //   message: '成功回调:选中按钮序号---' + ret.index
-        // })
       },
       cancel: function () {
         prompt.showToast({
