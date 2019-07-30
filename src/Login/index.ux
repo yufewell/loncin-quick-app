@@ -5,11 +5,11 @@
     <div class="top">
       <image src="/Common/logo@2x.png" class="logo" />
     </div>
-    <!-- <div style="width: 80%; border: 2px solid rgba(142,41,39,1); border-radius: 34px;">
+    <div style="width: 80%; border: 2px solid rgba(142,41,39,1); border-radius: 34px;">
       <lc-input id="name" containercss="height: 68px;padding-left: 30px; padding-right: 30px;" name="name" size="22px"
         maxlen="{{20}}" suffix="/Common/icon-edit-close.png" placeholder='请输入姓名' @on-focus="focus" @on-blur="blur"
         @on-clear="clear" @on-change="nameChange"></lc-input>
-    </div> -->
+    </div>
     <div style="width: 80%; border:2px solid rgba(159,156,156,1); border-radius: 34px; margin-top: 34px;">
       <lc-input id="phone" containercss="height: 68px; padding-left: 30px;padding-right: 30px;" name="phone" size="22px"
         type="number" maxlen="{{20}}" suffix="/Common/icon-edit-close.png" placeholder='请输入手机号' @on-focus="focus"
@@ -52,9 +52,9 @@ export default {
     tips: '获取验证码',
   },
   onInit() {
-    setTimeout(() => {
-      this.$child('phone').focus()
-    }, 1000)
+    // setTimeout(() => {
+    //   this.$child('name').focus()
+    // }, 1000)
   },
   onDestroy() {
     if (this.timer) clearInterval(this.timer)
