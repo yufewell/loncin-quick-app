@@ -6,15 +6,15 @@
   background-color:rgba(251,251,251,1);
   .top {
     margin-top: 70px;
+    margin-bottom: 20px;
     padding: 15px 20px;
+    background-color: #ffffff;
     flex-direction: column;
     .title {
-      flex: 1;
-      text-align: center;
+      justify-content: flex-start;
+      padding-bottom: 20px;
       font-size:29px;
       font-weight:400;
-      color:#ffffff;
-      margin-right: -86px;
     }
   }
   .header {
@@ -60,10 +60,14 @@
     height: 80px;
     font-size: 30px;
   }
-  .work-list-page {
-    margin-top: 70px;
+  .add {
+    padding: 0 20px;
     // background-color:rgba(251,251,251,1);
     background-color: #ffffff;
+    flex-direction: column;
+    > text {
+      padding: 20px 0px;
+    }
   }
 }
 
@@ -76,17 +80,19 @@
   border-radius: 26px;
   justify-content: center;
   align-items: center;
+  padding: 10px;
   > image {
 
   }
   .phone {
-    height:20px;
+    // height:20px;
     font-size:20px;
     font-family:PingFangSC-Regular;
     font-weight:400;
     color:rgba(255,255,255,1);
-    line-height:20px;
-    padding-left: 6px;
+    // line-height:20px;
+    padding-left: 2px;
+    background-color:rgba(98,96,96,1);
   }
 }
 

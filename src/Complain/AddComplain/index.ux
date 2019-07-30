@@ -9,12 +9,13 @@
     </div>
     <div class="top">
       <text class="title">投诉、建议（必填）</text>
-      <div style="flex-grow: 1;border: 1px solid #cccccc;">
+      <div style="border: 1px solid #cccccc;">
         <textarea class="xui-input-round" style="height: 200px;flex-grow: 1;" maxlength="400" placeholder="请输入您要写入的内容"></textarea>
       </div>
     </div>
     <div class="add" >
       <text>添加图片</text>
+      <text>暂无</text>
     </div>
     <div class="fixed-container">
       <input class="btn" type="button" value="立即提交" onclick="onConfirm" />
@@ -49,7 +50,36 @@ export default {
     router.back()
   },
   onConfirm() {
+    this.showDialog()
+  },
 
-  }
+  showDialog () {
+    prompt.showDialog({
+      title: '投诉建议',
+      message: '投诉成功！',
+      buttons: [
+        {
+          text: '确定',
+          color: '#0faeff'
+        },
+      ],
+      success: function (ret) {
+        if (ret.index === 0) {
+          // launch phone app
+          // router.push({
+          //   uri: 'tel:10086'
+          // })
+        }
+        // prompt.showToast({
+        //   message: '成功回调:选中按钮序号---' + ret.index
+        // })
+      },
+      cancel: function () {
+        prompt.showToast({
+          message: '取消'
+        })
+      }
+    })
+  },
 }
 </script>

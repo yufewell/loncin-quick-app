@@ -15,8 +15,9 @@
     </div>
     <div class="add" >
       <text>添加图片</text>
+      <text>暂无</text>
     </div>
-    <div style="fixed-phone">
+    <div class="fixed-phone">
       <image src="/Common/dianhua1@2x.png"></image>
       <input class="phone" type="button" value="电话报价" onclick="onPhone" />
     </div>
