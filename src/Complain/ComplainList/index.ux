@@ -23,7 +23,7 @@
           <div class="content">
             <block for="value in $item.picArr">
               <div class="image-container">
-                <image class="xui-col" style="object-fit: contain; background-color: red;" src="{{value}}"></image>
+                <image class="xui-col" style="object-fit: contain; background-color: #f1f1f1;" src="{{value}}"></image>
               </div>
             </block>
           </div>
