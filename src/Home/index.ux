@@ -11,7 +11,7 @@
       </div>
       <image class="message" src="/Common/icon-xiaoxi@2x.png"></image>
     </div>
-    <lc-swiper loop="{{false}}" autoplay="{{true}}" list="{{list}}"></lc-swiper>
+    <lc-swiper loop="{{true}}" autoplay="{{true}}" list="{{banners}}"></lc-swiper>
     <div class="tabs">
       <div for="{{tabs}}" class="tab-item" @click="tabPage($item.routeName)">
         <image class="img" src="{{$item.url}}" alt=""></image>
@@ -60,10 +60,10 @@ export default {
     return {
       userInfo: this.users,
       addr: '天鑫.天雨方',
-      list: [
-        { url: '/Common/icon-banner.png' },
-        { url: '/Common/icon-banner.png' },
-        { url: '/Common/icon-banner.png' },
+      banners: [
+        { url: '/Common/home/banner1@2x.png' },
+        { url: '/Common/home/banner2@2x.png' },
+        { url: '/Common/home/banner3@2x.png' },
       ],
       tabs: [
         { url: '/Common/icon-gonggao@2x.png', title: '社区公报', routeName: '/Notice/NoticeList' },
