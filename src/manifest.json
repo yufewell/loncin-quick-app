@@ -122,7 +122,7 @@
       "WuYe/Pay": {
         "component": "index"
       },
-      "Repair/AddList": {
+      "Repair/AddRepair": {
         "component": "index"
       },
       "Complain/ComplainList": {
@@ -235,7 +235,8 @@
       },
       "Repair/AddRepair": {
         "titleBarText": "物业报修",
-        "menu": false
+        "menu": false,
+        "titleBar": false
       },
       "Complain/ComplainList": {
         "titleBarText": "投诉记录",
@@ -243,7 +244,8 @@
       },
       "Complain/AddComplain": {
         "titleBarText": "投诉建议",
-        "menu": false
+        "menu": false,
+        "titleBar": false
       }
     }
   }
