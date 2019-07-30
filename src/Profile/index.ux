@@ -160,9 +160,7 @@ export default {
               message: '客服电话有误，请重新确认'
             })
           }
-          
         }
-       
       },
       cancel: function () {
         prompt.showToast({
