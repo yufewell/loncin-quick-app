@@ -105,12 +105,10 @@ export default {
     prompt.showContextMenu({
       itemList: [ '创建桌面快捷图标', '不了，谢谢！' ],
       itemColor: '#252525',
-      success: function (data) {
-        if (data && data.index === 0) {
-          if (_this.isCreateIcon) {
-            prompt.showToast({ message: '已创建桌面图标'})
-            return
-          }
+      success:  async function (data) {
+        console.log(data)
+        if (data && data.index === '0') {
+          await storage.set('create', '1')
           shortcut.install({
             async success () {
               const create = await storage.get('create')
@@ -124,12 +122,16 @@ export default {
               }
             }
           })
+        } else {
+          await storage.set('create', null)
         }
       },
-      cancel: function (data) {
+      cancel: async function (data) {
+        await storage.set('create', null)
         console.log('handling cancel', JSON.stringify(data))
       },
-      fail: function (data, code) {
+      fail: async function (data, code) {
+        await storage.set('create', null)
         console.log(`handling fail, code = ${code}`)
       }
     })
