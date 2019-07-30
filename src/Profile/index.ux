@@ -64,6 +64,7 @@ export default {
     const selectAddr = await storage.getJSON('selectAddr') || {}
     this.selectAddr = selectAddr
     this.address = selectAddr.address || ''
+    console.log('address', this.address, JSON.stringify(selectAddr))
   },
   async onReady() {
     const create = await storage.get('create')
