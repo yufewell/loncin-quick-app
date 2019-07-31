@@ -12,7 +12,7 @@
     </div>
     <div style="width: 80%; border:2px solid rgba(159,156,156,1); border-radius: 34px; margin-top: 34px;">
       <lc-input id="phone" containercss="height: 68px; padding-left: 30px;padding-right: 30px;" name="phone" size="22px"
-        type="number" maxlen="{{20}}" suffix="/Common/icon-edit-close.png" placeholder='请输入手机号' @on-focus="focus"
+        type="tel" maxlen="{{20}}" suffix="/Common/icon-edit-close.png" placeholder='请输入手机号' @on-focus="focus"
         @on-blur="blur" @on-clear="clear" @on-change="phoneChange"></lc-input>
     </div>
     <div class="code" style="width: 80%; margin-top: 34px;">

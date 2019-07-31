@@ -19,7 +19,7 @@
     </div>
     <div class="add" >
       <text>添加图片</text>
-      <div class="add-css" @click="uploadFile">
+      <div class="add-css" @click="pickImage">
         <image class="add-icon" src="/Common/tianjia@2x.png"></image>
       </div>
       <div class="content">
@@ -30,6 +30,7 @@
         </block>
       </div>
     </div>
+    <image class="image" src="{{pickImageUri}}" show="{{pickImageUri != ''}}"></image>
     <div class="fixed-phone">
       <image src="/Common/dianhua1@2x.png"></image>
       <input class="phone" type="button" value="电话报修" onclick="onPhone" />
@@ -47,6 +48,8 @@
 <script>
 import prompt from '@system.prompt'
 import router from '@system.router'
+import media from '@system.media'
+import image from '@system.image'
 import requestFetch from '../../lib/request'
 import request from '@system.request'
 import storage from '../../lib/storage'
@@ -55,9 +58,11 @@ export default {
     return {
       deviceInfo: {},
       selectAddr: {},
+      fileList: [],
       address: '',
       repairPhone: '',
       content: '',
+      pickImageUri: '',
     }
   },
   async onInit() {
@@ -83,7 +88,9 @@ export default {
   getPhone(address_id) {
     requestFetch.get(`service/telephone?address_id=${address_id}`).then(({ data }) => {
       console.log(data)
-      this.repairPhone = data && data.repair_service_telephone || '' 
+      // service_telephone: {repair_service_telephone: "4008000001", customer_service_telephone: "4008000002"}customer_service_telephone: "4008000002"repair_service_telephone: "4008000001"__proto__: Object__proto__: Object
+      const repair_service_telephone = data.service_telephone.repair_service_telephone || ''
+      this.repairPhone = Number(repair_service_telephone)
     })
   },
   changeTextArea(e) {
@@ -97,6 +104,7 @@ export default {
       prompt.showToast({
         message: `请输入正确的内容`
       })
+      return
     }
     requestFetch.post('propertyrepair/create', { content: this.content, pics: '', address_id: this.selectAddr.address_id }).then((data) => {
       console.log(data)
@@ -135,6 +143,7 @@ export default {
     })
   },
   showPhoneDialog () {
+    const _self = this
     prompt.showDialog({
       title: '报修电话',
       message: '是否拨打报修电话',
@@ -151,13 +160,13 @@ export default {
       success: function (ret) {
         if (ret.index === 0) {
           // launch phone app
-          if (this.repairPhone) {
+          if (_self.repairPhone) {
             router.push({
-              uri: `tel:${this.repairPhone}`
+              uri: `tel:${_self.repairPhone}`
             })
           } else {
             prompt.showToast({
-              message: '客服电话有误，请重新确认'
+              message: '报修电话有误，请重新确认'
             })
           }
         }
@@ -169,15 +178,39 @@ export default {
       }
     })
   },
+  // 选择图片不
+  pickImage() {
+    media.pickImage({
+      success: (data) => {
+        console.log("handling success: " + data.uri)
+        // this.pickImageUri = data.uri
+        this.fileList = this.fileList[data.uri]
+        requestFetch.post('file/upload', { file: data.uri }).then(res => {
+          console.log(res)
+          // prompt.showToast({
+          //   message: `data.uri: ${res}`,
+          //   duration: 5,
+          // })
+        })
+        // prompt.showToast({
+        //   message: `data.uri: ${data}`,
+        //   duration: 8,
+        // })
+        // if (this.pickImageUri) {
+        //   this.uploadFile()
+        // }
+      }
+    })
+  },
   // 上传文件接口 file/upload
   uploadFile () {
     const self = this
     request.upload({
-      url: 'https://www.quickapp.cn/',
+      url: 'http://lxwy.yufewell.cn/file/upload',
       files: [
         {
-          uri: self.fileUploadData,
-          name: 'component_test.pdf'
+          uri: self.pickImageUri,
+          name: '1.img'
         }
       ],
       data: [
@@ -188,6 +221,9 @@ export default {
       ],
       success: function (ret) {
         self.fileUploadData = ret.data
+        prompt.showToast({
+          message: `fileUploadData: ${ret.data}`
+        })
       },
       fail: function (msg, code) {
         self.fileUploadData = `${code}: ${msg}`
@@ -197,6 +233,18 @@ export default {
         })
       }
     })
-  }
+  },
+  //获取图片信息
+  getImageInfo() {
+    image.getImageInfo({
+      uri: this.pickImageUri,
+      success: (data) => {
+        console.log("handling success: size=" + data.size)
+      },
+      fail: (data, code) => {
+          console.log("handling fail, code=" + code)
+      }
+    })
+  },
 }
 </script>

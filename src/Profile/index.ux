@@ -137,6 +137,7 @@ export default {
     })
   },
   showDialog () {
+    const _self = this
     prompt.showDialog({
       title: '客服电话',
       message: '是否拨打客服电话',
@@ -153,9 +154,9 @@ export default {
       success: function (ret) {
         if (ret.index === 0) {
           // launch phone app
-          if (this.tellPhone) {
+          if (_self.tellPhone) {
             router.push({
-              uri: `tel:${this.tellPhone}`
+              uri: `tel:${_self.tellPhone}`
             })
           } else {
             prompt.showToast({
@@ -174,7 +175,9 @@ export default {
   getPhone(address_id) {
     request.get(`service/telephone?address_id=${address_id}`).then(({ data }) => {
       console.log(data)
-      this.tellPhone = data && data.customer_service_telephone || '' 
+      // service_telephone: {repair_service_telephone: "4008000001", customer_service_telephone: "4008000002"}customer_service_telephone: "4008000002"repair_service_telephone: "4008000001"__proto__: Object__proto__: Object
+      const tellPhone = data.service_telephone.customer_service_telephone || ''
+      this.repairPhone = Number(tellPhone)
     })
   },
 }

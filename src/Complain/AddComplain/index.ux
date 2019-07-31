@@ -75,6 +75,7 @@ export default {
       prompt.showToast({
         message: `请输入正确的内容`
       })
+      return
     }
     requestFetch.post('complain/create', { content: this.content, pics: '', address_id: this.selectAddr.address_id }).then((data) => {
       console.log(data)
