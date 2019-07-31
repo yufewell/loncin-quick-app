@@ -7,8 +7,7 @@
     <text class='time'>{{noticeDetail.add_time}}</text>
     <image class='img' src="{{noticeDetail.pics ? noticeDetail.pics : '/Common/icont-img@2x.png'}}"></image>
     <div class="content">
-      <richtext type="html" class="rich-text">{{content}}</richtext>
-      <text class='txt'>{{noticeDetail.content}}</text>
+      <richtext type="html" class="rich-text">{{noticeDetail.content}}</richtext>
     </div>
     <!-- <div class="contentCss">
       <block for="{{ (index, item) in [] }}">
