@@ -72,12 +72,9 @@ export default {
     }
   },
   async onReady() {
-    const create = await storage.get('create')
-    if (!create) {
-      setTimeout(() => {
-        this.createShortIcon()
-      }, 3000)
-    }
+    setTimeout(() => {
+      this.getShortcut()
+    }, 3000)
   },
   changeAddr () {
     router.push ({
@@ -99,6 +96,27 @@ export default {
   onLoginOut() {
     user.logout()
   },
+  getShortcut () {
+    shortcut.hasInstalled({
+      success: function (ret) {
+        if (ret) {
+          // 桌面图标已创建
+        } else {
+          // 桌面图标未创建
+          this.createShortIcon()
+        }
+      }
+    })
+  },
+  installShortcut () {
+    shortcut.install({
+      success: function () {
+        prompt.showToast({
+          message: '桌面图标创建成功'
+        })
+      }
+    })
+  },
   // 创建桌面图标
   createShortIcon() {
     const _this = this
@@ -108,22 +126,8 @@ export default {
       success:  async function (data) {
         console.log(data)
         if (data && data.index === '0') {
-          await storage.set('create', '1')
-          shortcut.install({
-            async success () {
-              const create = await storage.get('create')
-              if (create === '1') {
-                prompt.showToast({ message: '已创建桌面图标'})
-                _this.isCreateIcon = true
-              } else {
-                await storage.set('create', '1')
-                _this.isCreateIcon = true
-                prompt.showToast({ message: '成功创建桌面图标'})
-              }
-            }
-          })
-        } else {
-          await storage.set('create', null)
+          _this.installShortcut()
+          await storage.set('create', 1)
         }
       },
       cancel: async function (data) {
