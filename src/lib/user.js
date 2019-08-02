@@ -29,8 +29,9 @@ export default class User {
   /**
    * 注册并登录保存用户到获取本地storage保存的用户信息
    */
-  async login(name, phone, code) {
-    const res = await request.post('login', { name, phone, captcha: code })
+  async login(phone, code) {
+    const res = await request.post('login', { phone, captcha: code })
+    console.log(res)
     const userInfo = res.data.user || {}
     if (res.err && !res.code) { return prompt.showToast({ message: JSON.stringify(res.err)}) }
     if (res.data.user && typeof storage === 'object') { 

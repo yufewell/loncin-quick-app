@@ -39,10 +39,10 @@ const payTypes = [
     typeId: 5,
     typeName: '停车费',
   },
-  {
-    typeId: 2,
-    typeName: '供暖费',
-  },
+  // {
+  //   typeId: 2,
+  //   typeName: '供暖费',
+  // },
 ]
 
 module.exports = {

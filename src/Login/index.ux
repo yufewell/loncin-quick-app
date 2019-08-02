@@ -12,7 +12,7 @@
     </div>
     <div style="width: 80%; border:2px solid rgba(159,156,156,1); border-radius: 34px; margin-top: 34px;">
       <lc-input id="phone" containercss="height: 68px; padding-left: 30px;padding-right: 30px;" name="phone" size="22px"
-        type="tel" maxlen="{{20}}" suffix="/Common/icon-edit-close.png" placeholder='请输入手机号' @on-focus="focus"
+        type="number" maxlen="{{20}}" suffix="/Common/icon-edit-close.png" placeholder='请输入手机号' @on-focus="focus"
         @on-blur="blur" @on-clear="clear" @on-change="phoneChange"></lc-input>
     </div>
     <div class="code" style="width: 80%; margin-top: 34px;">
@@ -26,7 +26,7 @@
         <text else>{{countdownTime}}s</text>
       </div>
     </div>
-    <input class="submit" type="button" value="注册并登录" onclick="submit" />
+    <input class="submit" type="button" value="注册并登录" @click="submit" />
   </div>
 </template>
 
@@ -52,26 +52,22 @@ export default {
     tips: '获取验证码',
   },
   onInit() {
-    // setTimeout(() => {
-    //   this.$child('name').focus()
-    // }, 1000)
+    setTimeout(() => {
+      this.$child('name').focus()
+    }, 1000)
   },
   onDestroy() {
     if (this.timer) clearInterval(this.timer)
   },
   async submit() {
-    // if (!this.name) {
-    //   return prompt.showToast({
-    //     message: '请输入姓名！'
-    //   })
-    // }
     if (!/^\d{6}$/.test(this.code)) {
       return prompt.showToast({
         message: '请输入验证码！'
       })
     }
-    await user.login(this.name, this.phone, this.code).then(async (res) => {
+    await user.login(this.phone, this.code).then(res => {
       if (res.code === 0) {
+        console.log(res)
         prompt.showToast({ message: '登录成功！' })
         // 如果业主只有一套房子，直接进入首页，若业主有多套房子，进入选择页面
         return router.push({

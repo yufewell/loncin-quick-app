@@ -15,7 +15,7 @@ function request(method = 'GET') {
         data,
         header: { authorization: '', token: token },
         success: function (data) {
-          // console.log(`接口：${baseUrl + url}: data: ${data}`)
+          console.log(`接口：${baseUrl + url}: data: ${JSON.stringfy(data)}`)
           if (data.code !== 200) {
             console.error(data)
             prompt.showToast({ message: typeof data.data === 'string' ? data.data : JSON.stringify(data.data) })

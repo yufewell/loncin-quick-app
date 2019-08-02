@@ -1,6 +1,7 @@
 {
   "env": {
-    "commonjs": true
+    "commonjs": true,
+    "es6": true
   },
   "extends": "eslint:recommended",
   "parser": "babel-eslint",
@@ -19,12 +20,15 @@
     "setTimeout": false,
     "clearTimeout": false,
     "setInterval": false,
-    "clearInterval": false
+    "clearInterval": false,
+    "allowEmptyReject": true
   },
   "plugins": [
     "hybrid"
   ],
   "rules": {
+    "space-before-function-paren": [0],	
+    "prefer-promise-reject-errors": "off",
     "indent": [
       "warn",
       2

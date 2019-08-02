@@ -72,9 +72,9 @@ export default {
     }
   },
   async onReady() {
-    setTimeout(() => {
-      this.getShortcut()
-    }, 3000)
+    // setTimeout(() => {
+    //   this.getShortcut()
+    // }, 3000)
   },
   changeAddr () {
     router.push ({
@@ -97,13 +97,14 @@ export default {
     user.logout()
   },
   getShortcut () {
+    const _self = this
     shortcut.hasInstalled({
       success: function (ret) {
         if (ret) {
           // 桌面图标已创建
         } else {
           // 桌面图标未创建
-          this.createShortIcon()
+          _self.createShortIcon()
         }
       }
     })
